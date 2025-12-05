@@ -1,6 +1,9 @@
 
 # Patterns: An open source translator to convert reasoning traces, into fundamental cognitive primitives
 
+![patterns](https://github.com/user-attachments/assets/b5a1e01f-f396-46c2-a88a-d5d83727bc39)
+
+
 Glad you found this. This library is meant to allow researchers and practitioners to grab the scapel, and diagnose with rigourus analytical expression the cognitive modallity their models are fundamentally thinking in. To this extent, we propose a clear roadmap to AGI as the satisfaction of a criteria. In the framework of deep psychology, eight modalities for human cognition are proposed distinguished in four dimensions: each having an extraverted and an introverted counterpart. We thus have feeling, thinking, intuition and sensing. If a model is capable of thinking in terms of all 8 modalities while intertwining the modalities in meaningful patterns, we can safely assume that the model is in fact thinking like a human being. Divided into their ambivalences the functions can be derived as following:
 
 - Introverted Feeling (Fi)
