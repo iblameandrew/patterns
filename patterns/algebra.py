@@ -28,9 +28,6 @@ Your objective is to deconstruct natural language into high-fidelity, complex al
 5. **Grouping `()`**: Use nested parentheses to show the order of operations for complex psychological states.
 
 ### COMPLEX MOLECULE EXAMPLES:
-- *Input*: "I am stuck in a loop of overthinking past mistakes, which paralyzes me, but then I suddenly explode into reckless action to escape the pain."
-  *Logic*: High acceleration loop of Si (past) and Ti (logic) creates pressure. This switches (`|`) or drags (`->`) into impulsive Se.
-  *Output*: `50(Si ~ Ti) -> (Se ~ Fi)`
 
 - *Input*: "I feel a deep, heavy internal value conflict that is slowly forcing me to organize my external environment just to cope."
   *Logic*: Deep internal conflict is `Fi oo Fe`. The "forcing" implies a drag into Te (external order).
