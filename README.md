@@ -24,7 +24,7 @@ The system operates in three distinct layers:
 
 1.  **Layer 1: The Algebraic Analyst**
     *   **Input:** Natural language (e.g., "I explore impulsively but feel held back by past regrets").
-    *   **Process:** Uses LLMs to parse text into the **Algebra** syntax (e.g., `Se ~ Si`).
+    *   **Process:** Uses LLMs to parse text into the **Algebra** syntax (e.g., `Se oo Si`).
     *   **Output:** A valid algebraic expression representing cognitive dynamics.
 
 2.  **Layer 2: The Harmonic Composer**
