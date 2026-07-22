@@ -1,35 +1,36 @@
-"""Tests for spectrogram rendering."""
+"""Tests for spectrogram rendering with geometric terminals."""
 
 import numpy as np
 
-from attention_algebra.spectrum import SpectrogramReader, TERMINAL_FREQS
+from attention_algebra.spectrum import SpectrogramReader
+from attention_algebra.terminals import TERMINAL_FREQS
 
 
 def _sample_schedule(logic: str = "Orbital") -> dict:
     return {
-        "original_expression": "(Ne ~ Ti)",
+        "original_expression": "(Im ~ Pr)",
         "schedule_logic": logic,
         "global_frequency": 2.0,
         "fold_energy": None,
         "score": [
             {
-                "voice": "Extraverted Intuition (Ne)",
-                "symbol": "ExtrapolationObjective",
+                "voice": "Impulse (Im)",
+                "symbol": "KineticVelocityObjective",
                 "mass": 7.0,
-                "formula": "e^{||s||}",
-                "description": "Novelty",
+                "formula": "||z_t - z_{t-1}||",
+                "description": "Maximize step velocity",
                 "role": "primary",
             },
             {
-                "voice": "Introverted Thinking (Ti)",
-                "symbol": "ContrastObjective",
+                "voice": "Prune (Pr)",
+                "symbol": "SparsePrecisionObjective",
                 "mass": 5.0,
-                "formula": "|d(a)-d(b)|",
-                "description": "Discrimination",
+                "formula": "-||z_t||_1",
+                "description": "L1 compression",
                 "role": "secondary",
             },
         ],
-        "math_narrative": "Orbital interplay between novelty and logic.",
+        "math_narrative": "Orbital interplay between impulse and sparse precision.",
     }
 
 
@@ -37,7 +38,7 @@ def test_synthesize_produces_signal():
     reader = SpectrogramReader(duration=0.5)
     signal, labels, _ = reader.synthesize(_sample_schedule())
     assert len(signal) > 0
-    assert labels == ["Ne", "Ti"]
+    assert labels == ["Im", "Pr"]
     assert np.max(np.abs(signal)) <= 1.0
 
 
@@ -48,7 +49,7 @@ def test_render_returns_image():
     assert result.image.shape[2] == 3
     assert result.image.shape[0] > 64
     assert "Cognitive Spectrogram" in result.report
-    assert "Ne" in result.report
+    assert "Im" in result.report
 
 
 def test_read_tuple_api():
@@ -84,4 +85,14 @@ def test_all_schedule_logics_smoke():
 
 
 def test_terminal_freq_ordering():
-    assert TERMINAL_FREQS["Se"] < TERMINAL_FREQS["Fi"]
+    assert TERMINAL_FREQS["Im"] < TERMINAL_FREQS["Df"]
+    assert len(TERMINAL_FREQS) == 12
+
+
+def test_resolve_all_objective_symbols():
+    from attention_algebra.spectrum import _resolve_terminal
+    from attention_algebra.terminals import TERMINAL_SPECS
+
+    for spec in TERMINAL_SPECS:
+        track = {"symbol": spec.objective, "voice": f"{spec.name} ({spec.symbol})"}
+        assert _resolve_terminal(track) == spec.symbol

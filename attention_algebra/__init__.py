@@ -14,6 +14,13 @@ from .composition import Composer
 from .config import ModelFactory
 from .parser import ValidationResult, are_complementary, validate_expression
 from .spectrum import SpectrogramReader, SpectrumResult
+from .terminals import (
+    TERMINAL_ORDER,
+    TERMINAL_SPECS,
+    TERMINALS,
+    ZODIAC_ANCHOR,
+)
+from .thought_library import ThoughtLibrarian, ThoughtLibrary, save_library
 from .utils import strip_code_fences, strip_think_tags
 
 __all__ = [
@@ -22,11 +29,18 @@ __all__ = [
     "ModelFactory",
     "SpectrogramReader",
     "SpectrumResult",
+    "TERMINALS",
+    "TERMINAL_ORDER",
+    "TERMINAL_SPECS",
+    "ThoughtLibrarian",
+    "ThoughtLibrary",
     "ValidationResult",
+    "ZODIAC_ANCHOR",
     "are_complementary",
+    "save_library",
     "strip_code_fences",
     "strip_think_tags",
     "validate_expression",
 ]
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"

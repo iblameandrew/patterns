@@ -2,7 +2,7 @@
 
 Reads the Cognitive-Algebra expression emitted by Layer 1 and maps it
 into a **Mathematical Schedule**: a JSON document that pairs every
-cognitive function with a concrete optimisation objective, a weight
+geometric terminal with a concrete optimisation objective, a weight
 (mass), and a global frequency (acceleration).  The schedule is the
 machine-readable contract that Layer 3 renders as a cognitive
 spectrogram.
@@ -20,23 +20,29 @@ COMPOSER_SYSTEM_PROMPT = """
 You are a Mathematical Physicist and Harmonic Composer for a Computational Psychology engine.
 Your task is to translate a "Cognitive Algebra" expression into a "Mathematical Schedule" whose objectives map to spectral bands for spectrogram rendering.
 
-### MAPPING LOGIC (Cognitive -> Mathematical):
+The twelve terminals are language-agnostic geometric anchors (Zodiac math objectives renamed).  Use only these symbols: Im, An, Bi, Rt, Ei, Pr, Hm, Ox, Ex, Bd, Nv, Df.
 
-1. **Functions to Objectives**:
-   - **Se (Extroverted Sensing)** -> `ExplorationObjective`   | Math: $\\mathcal{{H}}(\\pi(a|s))$ (Maximize Entropy)
-   - **Si (Introverted Sensing)** -> `GatheringObjective`    | Math: $e^{{-||s - \\mu||}}$ (Minimize Distance to Centroid)
-   - **Ne (Extroverted Intuition)** -> `ExtrapolationObjective` | Math: $e^{{||s - \\mu||}}$ (Maximize Distance / Novelty)
-   - **Ni (Introverted Intuition)** -> `InterpolationObjective` | Math: $\\text{{proj}}_{{\\vec{{v}}}}(s)$ (Trajectory Alignment)
-   - **Te (Extroverted Thinking)** -> `ExploitationObjective` | Math: $\\mathbb{{E}}[V(s)]$ (Maximize Value)
-   - **Ti (Introverted Thinking)** -> `ContrastObjective`    | Math: $|d(s, a) - d(s, b)|$ (Maximize Discrimination)
-   - **Fe (Extroverted Feeling)** -> `IntegrationObjective`  | Math: $\\mathcal{{H}} + \\alpha V(s)$ (Balance Entropy & Value)
-   - **Fi (Introverted Feeling)** -> `SelectionObjective`    | Math: $e^{{-d(s, s_{{t-1}})}}$ (Temporal Consistency)
+### MAPPING LOGIC (Geometric Terminal -> Mathematical Objective):
+
+1. **Functions to Objectives** (formulae are over latent state z_t):
+   - **Im Impulse** -> `KineticVelocityObjective` | Math: $\\|z_t - z_{{t-1}}\\|$ (Maximize step velocity)
+   - **An Anchor** -> `CentroidStabilityObjective` | Math: $-\\|z_t - \\mu_{{\\mathrm{{hist}}}}\\|$ (Minimize distance to history centroid)
+   - **Bi Bifurcate** -> `TemporalDualityObjective` | Math: $\\|z_t - z_{{t-2}}\\| - 0.5\\|z_t - z_{{t-1}}\\|$ (Temporal bimodality)
+   - **Rt Return** -> `CyclicRecurrenceObjective` | Math: $\\cos(z_t, z_0)$ (Maximize similarity to origin)
+   - **Ei Eigen** -> `RepresentativeCentralityObjective` | Math: $\\cos(z_t, \\mu_{{\\mathrm{{batch}}}}) \\cdot \\|z_t\\|$ (Batch eigen-centrality)
+   - **Pr Prune** -> `SparsePrecisionObjective` | Math: $-\\|z_t\\|_1$ (L1 compression)
+   - **Hm Harmon** -> `HarmonicEquilibriumObjective` | Math: $-\\|z_t - \\mu_{{\\mathrm{{batch}}}}\\|$ (Minimize distance to batch mean)
+   - **Ox Orth** -> `LatentOrthogonalityObjective` | Math: $1 - |\\cos(z_t, \\mu_{{\\mathrm{{hist}}}})|$ (Orthogonal to history surface)
+   - **Ex Expand** -> `VectorExpansionObjective` | Math: $\\|z_t\\|$ (Maximize magnitude)
+   - **Bd Bound** -> `StructuralConstraintObjective` | Math: $-10\\|z_t - \\mathrm{{clamp}}(z_t, -1, 1)\\|$ (Hard bounds)
+   - **Nv Novel** -> `DiversityNoveltyObjective` | Math: $\\|z_t - \\mu_{{\\mathrm{{batch}}}}\\|$ (Maximize distance from batch center)
+   - **Df Diffuse** -> `EntropicDiffusionObjective` | Math: $-\\max_i |z_t^{{(i)}}|$ (Flatten peaks / entropy)
 
 2. **Sequential Operators to Scheduling Logic**:
    - **Orbit (`~`)**       -> "Orbital".  Weights oscillate using Sine/Cosine waves.
    - **Drag (`->` or `→`)** -> "Drag".  First function decays exponentially, second grows.
    - **Axis Switch (`|`)** -> "Stochastic Switching".  Same-domain sub-axis alternation.
-   - **Domain Switch (`+` across P/J)** -> "Domain Switching".  Perception/Judgment alternation.
+   - **Domain Switch (`+` across TRACE/FIELD/FORM)** -> "Domain Switching".
    - **Opposition (`oo`)** -> "Adversarial".  Secondary objective has negative weight.
    - **Conjunction (`&` or `+`)** -> "Linear".  Constant weights.
 
@@ -51,7 +57,7 @@ Your task is to translate a "Cognitive Algebra" expression into a "Mathematical 
    - **Co-transcriptional (`>>`)** -> "Sequential Commitment".  Prefix-locked progressive folding.
 
 4. **Physics (Coefficients)**:
-   - **Mass** (integer prefix on terminal, e.g. `5Si`): becomes `weight` in score.
+   - **Mass** (integer prefix on terminal, e.g. `5An`): becomes `weight` in score.
    - **Acceleration** (integer prefix on group, e.g. `40(...)`): becomes `global_frequency`.
 
 ### TASK:
@@ -70,14 +76,14 @@ Analyze the Input Algebra.  Decompose nested/RNA structures into a `nodes` tree.
         {{
             "operator": "StemPair" | "Orbit" | "Hairpin" | "Pseudoknot" | "Junction" | "Stacking" | "Fold" | "Sequential" | "Opposition" | "Linear",
             "schedule_logic": "<logic for this node>",
-            "terminals": ["Ne", "Fe"],
-            "loop": ["Ti"],
+            "terminals": ["Nv", "Hm"],
+            "loop": ["Pr"],
             "children": []
         }}
     ],
     "score": [
         {{
-            "voice": "Voice 1 (Function Name)",
+            "voice": "Voice 1 (Terminal Name)",
             "symbol": "ObjectiveClassName",
             "mass": <float>,
             "formula": "LaTeX string",

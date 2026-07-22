@@ -1,7 +1,7 @@
 """Layer 3 — the Spectrogram Reader.
 
 Maps the Mathematical Schedule from Layer 2 into a cognitive spectrogram:
-a time–frequency image where each Jungian terminal occupies a carrier band
+a time–frequency image where each geometric terminal occupies a carrier band
 and schedule dynamics modulate spectral power according to the algebraic
 math equivalences.
 """
@@ -19,52 +19,22 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-log = logging.getLogger(__name__)
-
-# Carrier frequencies (Hz) — chromatic cognitive scale, low→high.
-TERMINAL_FREQS: dict[str, float] = {
-    "Se": 82.4,
-    "Si": 110.0,
-    "Ne": 164.8,
-    "Ni": 220.0,
-    "Te": 293.7,
-    "Ti": 392.0,
-    "Fe": 493.9,
-    "Fi": 587.3,
-}
-
-TERMINAL_ORDER = ["Se", "Si", "Ne", "Ni", "Te", "Ti", "Fe", "Fi"]
-
-SYMBOL_TO_TERMINAL: dict[str, str] = {
-    "ExplorationObjective": "Se",
-    "GatheringObjective": "Si",
-    "ExtrapolationObjective": "Ne",
-    "InterpolationObjective": "Ni",
-    "ExploitationObjective": "Te",
-    "ContrastObjective": "Ti",
-    "IntegrationObjective": "Fe",
-    "SelectionObjective": "Fi",
-}
-
-VOICE_TERMINAL_RE = re.compile(
-    r"\b(Se|Si|Ne|Ni|Te|Ti|Fe|Fi)\b|"
-    r"(Extraverted Sensing|Introverted Sensing|"
-    r"Extraverted Intuition|Introverted Intuition|"
-    r"Extraverted Thinking|Introverted Thinking|"
-    r"Extraverted Feeling|Introverted Feeling)",
-    re.IGNORECASE,
+from .terminals import (
+    SYMBOL_TO_TERMINAL,
+    TERMINAL_ALT,
+    TERMINAL_FREQS,
+    TERMINAL_ORDER,
+    VOICE_NAME_MAP,
 )
 
-VOICE_NAME_MAP = {
-    "extraverted sensing": "Se",
-    "introverted sensing": "Si",
-    "extraverted intuition": "Ne",
-    "introverted intuition": "Ni",
-    "extraverted thinking": "Te",
-    "introverted thinking": "Ti",
-    "extraverted feeling": "Fe",
-    "introverted feeling": "Fi",
-}
+log = logging.getLogger(__name__)
+
+VOICE_TERMINAL_RE = re.compile(
+    rf"\b({TERMINAL_ALT})\b|"
+    r"(Impulse|Anchor|Bifurcate|Return|Eigen|Prune|Harmon|Orth|"
+    r"Expand|Bound|Novel|Diffuse)",
+    re.IGNORECASE,
+)
 
 
 @dataclass
@@ -79,7 +49,7 @@ class SpectrumResult:
 
 
 def _resolve_terminal(track: dict) -> str | None:
-    """Infer the Jungian terminal for a score track."""
+    """Infer the geometric terminal for a score track."""
     symbol = track.get("symbol", "")
     if symbol in SYMBOL_TO_TERMINAL:
         return SYMBOL_TO_TERMINAL[symbol]
@@ -89,8 +59,13 @@ def _resolve_terminal(track: dict) -> str | None:
     if not match:
         return None
     token = match.group(0)
+    if len(token) == 2 and token[0].isupper():
+        return token[0] + token[1].lower() if token[1].islower() else token
+    # Two-letter codes case-normalised
     if len(token) == 2:
-        return token[0].upper() + token[1].lower() if token[1].islower() else token
+        cand = token[0].upper() + token[1].lower()
+        if cand in TERMINAL_FREQS:
+            return cand
     return VOICE_NAME_MAP.get(token.lower())
 
 
@@ -295,7 +270,7 @@ class SpectrogramReader:
         freqs, times, power = self.compute_spectrogram(signal)
         dominant = self._dominant_bands(freqs, power, labels)
 
-        fig, axes = plt.subplots(2, 1, figsize=(10, 7), gridspec_kw={"height_ratios": [3, 1]})
+        fig, axes = plt.subplots(2, 1, figsize=(10, 8), gridspec_kw={"height_ratios": [3, 1]})
 
         im = axes[0].specgram(
             signal,
@@ -309,13 +284,13 @@ class SpectrogramReader:
         axes[0].set_title(f"Cognitive Spectrogram — {logic}")
 
         for term in TERMINAL_ORDER:
-            axes[0].axhline(TERMINAL_FREQS[term], color="white", alpha=0.15, linewidth=0.5)
+            axes[0].axhline(TERMINAL_FREQS[term], color="white", alpha=0.12, linewidth=0.5)
             axes[0].text(
                 0.01,
                 TERMINAL_FREQS[term],
                 term,
                 color="white",
-                fontsize=7,
+                fontsize=6,
                 alpha=0.7,
                 transform=axes[0].get_yaxis_transform(),
             )
@@ -337,7 +312,7 @@ class SpectrogramReader:
             extent=[times[0], times[-1], 0, len(TERMINAL_ORDER)],
         )
         axes[1].set_yticks(np.arange(len(TERMINAL_ORDER)) + 0.5)
-        axes[1].set_yticklabels(TERMINAL_ORDER, fontsize=8)
+        axes[1].set_yticklabels(TERMINAL_ORDER, fontsize=7)
         axes[1].set_xlabel("Time (s)")
         axes[1].set_title("Terminal band occupancy")
 

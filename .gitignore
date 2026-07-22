@@ -9,4 +9,6 @@
 .venv/
 *.env
 *.mmd
+thought_library_out/
+terminals/
 
