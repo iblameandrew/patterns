@@ -317,7 +317,7 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
 # ---------------------------------------------------------------------------
 
 BATCH_ANALYSIS_PROMPT = """
-You are a Hermetic legislator of thought-forms for Attention Algebra.
+You are a Hermetic legislator of thought-forms for Attention Grammar.
 
 ## Doctrine
 - The twelve **reactives** are geometric terminals (Im, An, Bi, Rt, Ei, Pr, Hm, Ox, Ex, Bd, Nv, Df).
@@ -390,7 +390,8 @@ def _reactive_table_text() -> str:
         flag = " **NATURAL PATHOGEN**" if h.is_natural_pathogen else ""
         lines.append(
             f"- {h.symbol} = {h.name} / {h.sign} / {h.element} / {h.modality} "
-            f"— {h.house_theme} | math: {h.math_role}{flag}"
+            f"— functional {h.functional_display} — {h.house_theme} | "
+            f"math: {h.math_role}{flag}"
         )
     return "\n".join(lines)
 

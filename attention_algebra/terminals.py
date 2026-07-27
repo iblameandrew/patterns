@@ -1,12 +1,13 @@
-"""The twelve geometric terminals of Attention Algebra.
+"""The twelve geometric terminals of Attention Grammar.
 
 Each terminal is a language-agnostic name for one of the twelve Zodiac
 anchors — pure mathematical objective functions over a latent state
-trajectory.  Natural language is grounded only in these math roles,
-not in Jungian typology or classical astrology.
+trajectory — and each is **unraveled** as a Jungian functional-algebra
+expression in parentheses (the cognitive molecule of that sign).
 
 Source geometry: the parallel TTT anchors in the sibling ``zodiac``
 world-model (``StateObjectives`` / rotatory Modes schedule).
+Functional expansions: zodiac ↔ cognitive-algebra correspondences.
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ from typing import FrozenSet
 
 @dataclass(frozen=True)
 class TerminalSpec:
-    """One functional constituent: symbol, name, objective, math."""
+    """One functional constituent: geometric symbol + unraveled algebra."""
 
     symbol: str
     name: str
@@ -28,9 +29,15 @@ class TerminalSpec:
     sub_axis: str
     polarity: str  # OPEN | CLOSE
     carrier_hz: float
+    sign: str
+    # Primary Jungian functional expansion (always parenthesised form).
+    functional: str
+    # Optional alternate expansion when the sign is a disjunction (|).
+    functional_alt: str | None = None
 
 
 # Ordered Great-Year cycle (matches zodiac Modes[0..11]).
+# Each sign is unraveled as a functional-algebra molecule.
 TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
     TerminalSpec(
         "Im",
@@ -42,6 +49,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "kinetic",
         "OPEN",
         82.4,
+        "Aries",
+        "(Se)",
     ),
     TerminalSpec(
         "An",
@@ -53,6 +62,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "kinetic",
         "CLOSE",
         98.0,
+        "Taurus",
+        "(Si -> Ne)",
     ),
     TerminalSpec(
         "Bi",
@@ -64,6 +75,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "cyclic",
         "OPEN",
         123.5,
+        "Gemini",
+        "((Ne oo Ni) ~ Ti)",
     ),
     TerminalSpec(
         "Rt",
@@ -75,6 +88,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "cyclic",
         "CLOSE",
         146.8,
+        "Cancer",
+        "(Si ~ Fe)",
     ),
     TerminalSpec(
         "Ei",
@@ -86,6 +101,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "structure",
         "OPEN",
         174.6,
+        "Leo",
+        "((Fi oo Fe) -> Te)",
     ),
     TerminalSpec(
         "Pr",
@@ -97,6 +114,9 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "magnitude",
         "CLOSE",
         196.0,
+        "Virgo",
+        "(Si ~ Te oo Ti)",
+        "(Ni ~ Fe oo Fi)",
     ),
     TerminalSpec(
         "Hm",
@@ -108,6 +128,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "radial",
         "CLOSE",
         220.0,
+        "Libra",
+        "((Fe oo Fi) ~ Ni)",
     ),
     TerminalSpec(
         "Ox",
@@ -119,6 +141,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "orientation",
         "OPEN",
         261.6,
+        "Scorpio",
+        "(Ni -> Se)",
     ),
     TerminalSpec(
         "Ex",
@@ -130,6 +154,9 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "magnitude",
         "OPEN",
         293.7,
+        "Sagittarius",
+        "(Se ~ Ti)",
+        "(Ne ~ Fi)",
     ),
     TerminalSpec(
         "Bd",
@@ -141,6 +168,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "structure",
         "CLOSE",
         349.2,
+        "Capricorn",
+        "((Te oo Ti) ~ Ni)",
     ),
     TerminalSpec(
         "Nv",
@@ -152,6 +181,8 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "radial",
         "OPEN",
         392.0,
+        "Aquarius",
+        "((Ti -> Fe) ~ Ne)",
     ),
     TerminalSpec(
         "Df",
@@ -163,12 +194,15 @@ TERMINAL_SPECS: tuple[TerminalSpec, ...] = (
         "orientation",
         "CLOSE",
         440.0,
+        "Pisces",
+        "(Fi ~ (Ne oo Ni))",
     ),
 )
 
 TERMINALS: FrozenSet[str] = frozenset(s.symbol for s in TERMINAL_SPECS)
 TERMINAL_ORDER: list[str] = [s.symbol for s in TERMINAL_SPECS]
 TERMINAL_BY_SYMBOL: dict[str, TerminalSpec] = {s.symbol: s for s in TERMINAL_SPECS}
+TERMINAL_BY_SIGN: dict[str, TerminalSpec] = {s.sign: s for s in TERMINAL_SPECS}
 
 # Domain partitions
 TRACE: FrozenSet[str] = frozenset(s.symbol for s in TERMINAL_SPECS if s.domain == "TRACE")
@@ -228,17 +262,16 @@ VOICE_NAME_MAP: dict[str, str] = {}
 for _spec in TERMINAL_SPECS:
     VOICE_NAME_MAP[_spec.name.lower()] = _spec.symbol
     VOICE_NAME_MAP[_spec.symbol.lower()] = _spec.symbol
-    # Allow "Impulse (Im)" style resolution via bare name words
+    VOICE_NAME_MAP[_spec.sign.lower()] = _spec.symbol
     for word in _spec.name.lower().split():
         if word not in VOICE_NAME_MAP:
             VOICE_NAME_MAP[word] = _spec.symbol
 
 TERMINAL_FREQS: dict[str, float] = {s.symbol: s.carrier_hz for s in TERMINAL_SPECS}
 
-# Alternation pattern for regex (longest first not needed — all length 2)
 TERMINAL_ALT = "|".join(TERMINAL_ORDER)
 
-# Zodiac technical labels (for documentation / cross-repo mapping)
+# Zodiac technical labels (geometric anchor ↔ symbol)
 ZODIAC_ANCHOR: dict[str, str] = {
     "Im": "KINETIC_VELOCITY",
     "An": "CENTROID_STABILITY",
@@ -253,6 +286,34 @@ ZODIAC_ANCHOR: dict[str, str] = {
     "Nv": "DIVERSITY_NOVELTY",
     "Df": "ENTROPIC_DIFFUSION",
 }
+
+# Sign → functional expansion (primary)
+SIGN_FUNCTIONAL: dict[str, str] = {s.sign: s.functional for s in TERMINAL_SPECS}
+# Symbol → functional expansion (primary)
+SYMBOL_FUNCTIONAL: dict[str, str] = {s.symbol: s.functional for s in TERMINAL_SPECS}
+
+
+def unravel(symbol_or_sign: str) -> str:
+    """Return the full functional display, including alternate if present.
+
+    Examples
+    --------
+    >>> unravel("Im")
+    '(Se)'
+    >>> unravel("Virgo")
+    '(Si ~ Te oo Ti) | (Ni ~ Fe oo Fi)'
+    """
+    spec = TERMINAL_BY_SYMBOL.get(symbol_or_sign) or TERMINAL_BY_SIGN.get(
+        symbol_or_sign
+    )
+    if spec is None:
+        # try title-case sign
+        spec = TERMINAL_BY_SIGN.get(symbol_or_sign.title())
+    if spec is None:
+        raise KeyError(f"Unknown terminal or sign: {symbol_or_sign!r}")
+    if spec.functional_alt:
+        return f"{spec.functional} | {spec.functional_alt}"
+    return spec.functional
 
 
 def domain_of(term: str) -> str:

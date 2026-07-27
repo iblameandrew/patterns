@@ -1,10 +1,12 @@
 """Hermetic and classical-element correspondences for the twelve reactives.
 
 The Great-Year order of geometric terminals is paired 1:1 with the tropical
-zodiac.  The twelfth reactive — ``Df`` (Diffuse / ENTROPIC_DIFFUSION) —
-corresponds to **Pisces**: water of death, release, and dissolution.  It is
-the natural *pathogen* of the thought ecology: the reactive that flattens
-form so that other drives may be unmade or reborn.
+zodiac.  Each sign is **unraveled** as a Jungian functional-algebra molecule
+in parentheses (e.g. Capricorn = ``((Te oo Ti) ~ Ni)``).
+
+The twelfth reactive — ``Df`` (Diffuse / ENTROPIC_DIFFUSION) — corresponds
+to **Pisces** ``(Fi ~ (Ne oo Ni))``: water of death, release, and dissolution.
+It is the natural *pathogen* of the thought ecology.
 
 Hermetic lens (Kybalion):
   1. Mentalism — all is Mind; a thought-sequence is a mental state.
@@ -20,12 +22,17 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .terminals import TERMINAL_BY_SYMBOL, TERMINAL_ORDER, TerminalSpec
+from .terminals import (
+    TERMINAL_BY_SYMBOL,
+    TERMINAL_ORDER,
+    TerminalSpec,
+    unravel,
+)
 
 
 @dataclass(frozen=True)
 class HermeticReactive:
-    """One reactive under hermetic / elemental correspondence."""
+    """One reactive under hermetic / elemental / functional correspondence."""
 
     symbol: str
     name: str
@@ -35,6 +42,8 @@ class HermeticReactive:
     modality: str  # Cardinal | Fixed | Mutable
     house_theme: str
     math_role: str
+    functional: str  # primary unraveled form, e.g. "((Te oo Ti) ~ Ni)"
+    functional_display: str  # full form including | alternate if any
     is_natural_pathogen: bool
     is_water: bool
     polar_note: str
@@ -85,6 +94,8 @@ def build_hermetic_table() -> dict[str, HermeticReactive]:
             modality=modality,
             house_theme=house,
             math_role=spec.description,
+            functional=spec.functional,
+            functional_display=unravel(symbol),
             is_natural_pathogen=(symbol == NATURAL_PATHOGEN),
             is_water=(element == WATER_OF_DEATH),
             polar_note=f"{spec.polarity} · {spec.domain}/{spec.sub_axis}",
@@ -96,12 +107,14 @@ HERMETIC_TABLE: dict[str, HermeticReactive] = build_hermetic_table()
 
 
 def describe_sequence(symbols: tuple[str, ...]) -> str:
-    """Human-readable hermetic gloss for a reactive sequence."""
+    """Human-readable hermetic gloss including functional expansions."""
     parts: list[str] = []
     for s in symbols:
         h = HERMETIC_TABLE[s]
         tag = "PATHOGEN" if h.is_natural_pathogen else h.element.upper()
-        parts.append(f"{h.symbol}={h.name}/{h.sign}[{tag}]")
+        parts.append(
+            f"{h.symbol}={h.name}/{h.sign}[{tag}]{h.functional_display}"
+        )
     return " → ".join(parts)
 
 

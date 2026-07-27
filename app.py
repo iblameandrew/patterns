@@ -1,4 +1,4 @@
-"""Attention Algebra — Gradio front-end.
+"""Attention Grammar — Gradio front-end.
 
 Wires the three pipeline layers (Algebra → Composition → Spectrogram) into
 a simple interface.  Layers 1–2 use LLMs; Layer 3 is deterministic.
@@ -252,11 +252,11 @@ h1 { text-align: center; color: #2d3748; }
 
 def build_ui() -> gr.Blocks:
     """Construct the Gradio Blocks app."""
-    with gr.Blocks(title="Attention Algebra Engine") as demo:
+    with gr.Blocks(title="Attention Grammar Engine") as demo:
         gr.HTML(custom_css)
 
         with gr.Column(elem_classes=["container"]):
-            gr.Markdown("# Attention Algebra: Cognitive Transpiler")
+            gr.Markdown("# Attention Grammar: Cognitive Transpiler")
 
             with gr.Row():
                 txt_input = gr.Textbox(label="Context", lines=4)

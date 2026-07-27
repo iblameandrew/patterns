@@ -1,4 +1,4 @@
-"""Shared helpers used across the Attention Algebra pipeline."""
+"""Shared helpers used across the Attention Grammar pipeline."""
 
 import re
 

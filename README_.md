@@ -1,4 +1,4 @@
-# Attention Algebra — A Cognitive Grammar for Language
+# Attention Grammar — A Cognitive Grammar for Language
 
 > A formal grammar that lifts natural language into a higher-dimensional
 > space of *functional constituents*, and compiles the result into
@@ -16,7 +16,7 @@ projection is lossy: two sentences that look nothing alike can be
 driven by the same internal state, and a single sentence can be the
 shadow of many overlapping states.
 
-**Attention Algebra** is a *grammar* for the inverse projection. Given a piece
+**Attention Grammar** is a *grammar* for the inverse projection. Given a piece
 of natural language, it parses the string into an expression in a
 small formal language whose terminals are twelve irreducible
 *geometric functional constituents* — each one a pure mathematical
@@ -29,13 +29,13 @@ functional state.
 The twelve terminals are the **Zodiac geometric anchors** (velocity,
 centroid, duality, recurrence, centrality, sparsity, equilibrium,
 orthogonality, expansion, clamp, novelty, diffusion), renamed into
-language-agnostic short codes. Natural language is grounded only in
-that shared math — not in Jungian typology and not in classical
-astrology.
+language-agnostic short codes. Each sign is further **unraveled** as a
+Jungian functional-algebra molecule in parentheses — e.g. Capricorn /
+`Bd` = `((Te oo Ti) ~ Ni)`, Pisces / `Df` = `(Fi ~ (Ne oo Ni))`.
 
 In one sentence:
 
-> *Attention Algebra is a type system and compiler for language, where the
+> *Attention Grammar is a type system and compiler for language, where the
 > types are twelve geometric objectives and the compiled artefact is a
 > spectrogram that maps algebraic math equivalences onto a readable
 > cognitive spectrum.*
@@ -84,23 +84,47 @@ complexity, including long-range secondary structure.
 ### Terminals — the twelve geometric constituents
 
 Each sign of the Zodiac rotatory protocol is a differentiable reward
-on latent state $z_t$. Attention Algebra keeps that math as the sole
-semantic ground and gives every sign a **new, language-agnostic name**.
+on latent state $z_t$. Attention Grammar keeps that math as geometric
+ground, gives every sign a **language-agnostic short name**, and
+**unravels** each sign as a Jungian functional-algebra molecule in
+parentheses (the cognitive expansion of that sign).
 
-| Symbol | Name       | Domain | Sub-axis    | Polarity | Zodiac anchor (source)       | Math objective |
-| :----: | :--------- | :----- | :---------- | :------- | :--------------------------- | :------------- |
-|  `Im`  | Impulse    | TRACE  | kinetic     | OPEN     | `KINETIC_VELOCITY`           | $\|z_t - z_{t-1}\|$ |
-|  `An`  | Anchor     | TRACE  | kinetic     | CLOSE    | `CENTROID_STABILITY`         | $-\|z_t - \mu_{\mathrm{hist}}\|$ |
-|  `Bi`  | Bifurcate  | TRACE  | cyclic      | OPEN     | `TEMPORAL_DUALITY`           | $\|z_t - z_{t-2}\| - 0.5\|z_t - z_{t-1}\|$ |
-|  `Rt`  | Return     | TRACE  | cyclic      | CLOSE    | `CYCLIC_RECURRENCE`          | $\cos(z_t, z_0)$ |
-|  `Ei`  | Eigen      | FIELD  | structure   | OPEN     | `REPRESENTATIVE_CENTRALITY`  | $\cos(z_t, \mu_{\mathrm{batch}}) \cdot \|z_t\|$ |
-|  `Hm`  | Harmon     | FIELD  | radial      | CLOSE    | `HARMONIC_EQUILIBRIUM`       | $-\|z_t - \mu_{\mathrm{batch}}\|$ |
-|  `Nv`  | Novel      | FIELD  | radial      | OPEN     | `DIVERSITY_NOVELTY`          | $\|z_t - \mu_{\mathrm{batch}}\|$ |
-|  `Bd`  | Bound      | FIELD  | structure   | CLOSE    | `STRUCTURAL_CONSTRAINT`      | $-10\|z_t - \mathrm{clamp}(z_t,-1,1)\|$ |
-|  `Ex`  | Expand     | FORM   | magnitude   | OPEN     | `VECTOR_EXPANSION`           | $\|z_t\|$ |
-|  `Pr`  | Prune      | FORM   | magnitude   | CLOSE    | `SPARSE_PRECISION`           | $-\|z_t\|_1$ |
-|  `Ox`  | Orth       | FORM   | orientation | OPEN     | `LATENT_ORTHOGONALITY`       | $1 - |\cos(z_t, \mu_{\mathrm{hist}})|$ |
-|  `Df`  | Diffuse    | FORM   | orientation | CLOSE    | `ENTROPIC_DIFFUSION`         | $-\max_i \|z_t^{(i)}\|$ |
+| Symbol | Name | Sign | Functional expansion (unraveled) | Math objective |
+| :----: | :--- | :--- | :------------------------------- | :------------- |
+| `Im` | Impulse | Aries | `(Se)` | $\|z_t - z_{t-1}\|$ |
+| `An` | Anchor | Taurus | `(Si -> Ne)` | $-\|z_t - \mu_{\mathrm{hist}}\|$ |
+| `Bi` | Bifurcate | Gemini | `((Ne oo Ni) ~ Ti)` | $\|z_t - z_{t-2}\| - 0.5\|z_t - z_{t-1}\|$ |
+| `Rt` | Return | Cancer | `(Si ~ Fe)` | $\cos(z_t, z_0)$ |
+| `Ei` | Eigen | Leo | `((Fi oo Fe) -> Te)` | $\cos(z_t, \mu_{\mathrm{batch}}) \cdot \|z_t\|$ |
+| `Pr` | Prune | Virgo | `(Si ~ Te oo Ti) \| (Ni ~ Fe oo Fi)` | $-\|z_t\|_1$ |
+| `Hm` | Harmon | Libra | `((Fe oo Fi) ~ Ni)` | $-\|z_t - \mu_{\mathrm{batch}}\|$ |
+| `Ox` | Orth | Scorpio | `(Ni -> Se)` | $1 - |\cos(z_t, \mu_{\mathrm{hist}})|$ |
+| `Ex` | Expand | Sagittarius | `(Se ~ Ti) \| (Ne ~ Fi)` | $\|z_t\|$ |
+| `Bd` | Bound | Capricorn | `((Te oo Ti) ~ Ni)` | $-10\|z_t - \mathrm{clamp}(z_t,-1,1)\|$ |
+| `Nv` | Novel | Aquarius | `((Ti -> Fe) ~ Ne)` | $\|z_t - \mu_{\mathrm{batch}}\|$ |
+| `Df` | Diffuse | Pisces | `(Fi ~ (Ne oo Ni))` | $-\max_i \|z_t^{(i)}\|$ |
+
+**Correspondence rule.** A geometric terminal is a *name* for a sign; the
+sign is a *name* for a functional molecule.  Writing `Bd` is shorthand for
+Capricorn, which unravels as `((Te oo Ti) ~ Ni)`.  Sequences of geometric
+codes (e.g. `Im >> Bd >> Pr`) are sequences of these molecules.
+
+Geometric / schedule labels (for Layer 2–3):
+
+| Symbol | Domain | Sub-axis | Polarity | Zodiac anchor |
+| :----: | :----- | :------- | :------- | :------------ |
+| `Im` | TRACE | kinetic | OPEN | `KINETIC_VELOCITY` |
+| `An` | TRACE | kinetic | CLOSE | `CENTROID_STABILITY` |
+| `Bi` | TRACE | cyclic | OPEN | `TEMPORAL_DUALITY` |
+| `Rt` | TRACE | cyclic | CLOSE | `CYCLIC_RECURRENCE` |
+| `Ei` | FIELD | structure | OPEN | `REPRESENTATIVE_CENTRALITY` |
+| `Hm` | FIELD | radial | CLOSE | `HARMONIC_EQUILIBRIUM` |
+| `Nv` | FIELD | radial | OPEN | `DIVERSITY_NOVELTY` |
+| `Bd` | FIELD | structure | CLOSE | `STRUCTURAL_CONSTRAINT` |
+| `Ex` | FORM | magnitude | OPEN | `VECTOR_EXPANSION` |
+| `Pr` | FORM | magnitude | CLOSE | `SPARSE_PRECISION` |
+| `Ox` | FORM | orientation | OPEN | `LATENT_ORTHOGONALITY` |
+| `Df` | FORM | orientation | CLOSE | `ENTROPIC_DIFFUSION` |
 
 **Domains**
 
@@ -232,7 +256,7 @@ A sentence like
 > group harmony keeps dragging me back."
 
 parses to a single point in that space; a paragraph parses to a
-*trajectory*; a conversation parses to a *flow*. The Attention Algebra
+*trajectory*; a conversation parses to a *flow*. The Attention Grammar
 compiler is a differentiable readout of that flow.
 
 ---
@@ -370,8 +394,8 @@ image, report = reader.read(schedule)
 ### Install
 
 ```bash
-git clone https://github.com/iblameandrew/attention-algebra.git
-cd attention-algebra
+git clone https://github.com/iblameandrew/attention-grammar.git
+cd attention-grammar
 pip install -r requirements.txt
 ```
 
@@ -443,7 +467,7 @@ algebra = AlgebraAnalyst(model_name="local", provider="llama.cpp").analyze(
 
 ## Thought Library — parasitic sequences & hermetic legislation
 
-Beyond single expressions, Attention Algebra can **enumerate permutations of
+Beyond single expressions, Attention Grammar can **enumerate permutations of
 reactives** up to sequence length $N$, batch-classify each chain with a
 GenAI (or offline hermetic heuristic), and **legislate** formal canons over
 which thought-forms may circulate.
@@ -508,7 +532,7 @@ CLI [`thought_library_build.py`](thought_library_build.py).
 ## Repository Layout
 
 ```
-attention-algebra/
+attention-grammar/
 ├── assets/                     # README banner image
 ├── app.py                      # Gradio front-end
 ├── thought_library_build.py    # CLI: permute reactives, classify, legislate
@@ -543,7 +567,7 @@ independent of any particular benchmark: a model is generally
 intelligent iff its distribution over grammar expressions matches the
 human distribution under KL divergence below a threshold.
 
-In the meantime, Attention Algebra is a tool for *diagnosing* what a model is
+In the meantime, Attention Grammar is a tool for *diagnosing* what a model is
 doing. Drop a chain-of-thought trace in, get the grammar expression
 out, and read the cognitive state of the model the way a spectrogram
 reads a sound.

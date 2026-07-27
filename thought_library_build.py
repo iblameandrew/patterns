@@ -133,12 +133,15 @@ def main(argv: list[str] | None = None) -> int:
     _configure_logging(args.verbose)
 
     if args.print_table:
-        print(f"{'Sym':<4} {'Name':<10} {'Sign':<12} {'Element':<6} {'Note'}")
-        print("-" * 72)
+        print(f"{'Sym':<4} {'Name':<10} {'Sign':<12} {'Element':<6} Functional expansion")
+        print("-" * 88)
         for sym in TERMINAL_ORDER:
             h = HERMETIC_TABLE[sym]
-            note = "NATURAL PATHOGEN" if h.is_natural_pathogen else h.house_theme
-            print(f"{h.symbol:<4} {h.name:<10} {h.sign:<12} {h.element:<6} {note}")
+            flag = "  *PATHOGEN*" if h.is_natural_pathogen else ""
+            print(
+                f"{h.symbol:<4} {h.name:<10} {h.sign:<12} {h.element:<6} "
+                f"{h.functional_display}{flag}"
+            )
         return 0
 
     universe = count_sequences(

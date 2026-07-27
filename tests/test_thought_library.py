@@ -25,6 +25,20 @@ def test_twelve_hermetic_signs():
     assert TERMINAL_ORDER[11] == NATURAL_PATHOGEN
 
 
+def test_functional_expansions():
+    from attention_algebra.terminals import unravel, SIGN_FUNCTIONAL
+
+    assert unravel("Im") == "(Se)"
+    assert unravel("Aries") == "(Se)"
+    assert unravel("Bd") == "((Te oo Ti) ~ Ni)"
+    assert unravel("Capricorn") == "((Te oo Ti) ~ Ni)"
+    assert unravel("Df") == "(Fi ~ (Ne oo Ni))"
+    assert unravel("Virgo") == "(Si ~ Te oo Ti) | (Ni ~ Fe oo Fi)"
+    assert unravel("Sagittarius") == "(Se ~ Ti) | (Ne ~ Fi)"
+    assert SIGN_FUNCTIONAL["Leo"] == "((Fi oo Fe) -> Te)"
+    assert HERMETIC_TABLE["An"].functional == "(Si -> Ne)"
+
+
 def test_water_triad():
     water = [s for s, h in HERMETIC_TABLE.items() if h.is_water]
     assert set(water) == {"Rt", "Ox", "Df"}  # Cancer, Scorpio, Pisces

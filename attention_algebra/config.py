@@ -1,4 +1,4 @@
-"""Factory for chat-model clients used by the Attention Algebra pipeline.
+"""Factory for chat-model clients used by the Attention Grammar pipeline.
 
 Both back-ends speak the OpenAI Chat Completions API and are wired through
 ``langchain-openai`` (which wraps the official ``openai`` SDK):
@@ -62,9 +62,9 @@ class ModelFactory:
                 default_headers={
                     "HTTP-Referer": os.getenv(
                         "OPENROUTER_HTTP_REFERER",
-                        "https://github.com/iblameandrew/attention-algebra",
+                        "https://github.com/iblameandrew/attention-grammar",
                     ),
-                    "X-Title": os.getenv("OPENROUTER_APP_TITLE", "Attention Algebra"),
+                    "X-Title": os.getenv("OPENROUTER_APP_TITLE", "Attention Grammar"),
                 },
             )
 
