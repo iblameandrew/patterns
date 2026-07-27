@@ -1,21 +1,22 @@
-"""Hermetic and classical-element correspondences for the twelve reactives.
+"""Hermetic correspondences for the twelve geometric reactives.
 
-The Great-Year order of geometric terminals is paired 1:1 with the tropical
-zodiac.  Each sign is **unraveled** as a Jungian functional-algebra molecule
-in parentheses (e.g. Capricorn = ``((Te oo Ti) ~ Ni)``).
+Each reactive is **unraveled** as a Jungian functional-algebra molecule
+in parentheses (e.g. Bound / ``Bd`` = ``((Te oo Ti) ~ Ni)``).
 
-The twelfth reactive — ``Df`` (Diffuse / ENTROPIC_DIFFUSION) — corresponds
-to **Pisces** ``(Fi ~ (Ne oo Ni))``: water of death, release, and dissolution.
-It is the natural *pathogen* of the thought ecology.
+The twelfth reactive — ``Df`` (Diffuse / ENTROPIC_DIFFUSION) — unravels as
+``(Fi ~ (Ne oo Ni))``.  It is the natural *pathogen* of the thought ecology:
+the reactive that flattens form so that other drives may be unmade or
+reoriented.  The **release triad** is ``Rt``, ``Ox``, ``Df`` (return,
+orthogonal transform, diffusion).
 
-Hermetic lens (Kybalion):
+Hermetic lens (seven principles):
   1. Mentalism — all is Mind; a thought-sequence is a mental state.
   2. Correspondence — as above (algebra), so below (spectrogram / body).
   3. Vibration — every reactive has a carrier; sequences modulate rhythm.
   4. Polarity — OPEN/CLOSE poles; parasites invert poles without consent.
   5. Rhythm — pendula; parasitic chains freeze or drown the swing.
   6. Cause & Effect — every sequence legislates a consequence.
-  7. Gender — generation: OPEN seeds, CLOSE gestates; water releases seed.
+  7. Gender — generation: OPEN seeds, CLOSE gestates; release completes.
 """
 
 from __future__ import annotations
@@ -23,6 +24,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .terminals import (
+    RELEASE,
     TERMINAL_BY_SYMBOL,
     TERMINAL_ORDER,
     TerminalSpec,
@@ -32,41 +34,37 @@ from .terminals import (
 
 @dataclass(frozen=True)
 class HermeticReactive:
-    """One reactive under hermetic / elemental / functional correspondence."""
+    """One reactive under hermetic / functional correspondence."""
 
     symbol: str
     name: str
-    index: int  # 1..12 Great-Year position
-    sign: str
-    element: str  # Fire | Earth | Air | Water
-    modality: str  # Cardinal | Fixed | Mutable
-    house_theme: str
+    index: int  # 1..12 cycle position
+    theme: str
     math_role: str
-    functional: str  # primary unraveled form, e.g. "((Te oo Ti) ~ Ni)"
-    functional_display: str  # full form including | alternate if any
+    functional: str
+    functional_display: str
     is_natural_pathogen: bool
-    is_water: bool
+    is_release: bool
     polar_note: str
 
 
-# Tropical zodiac order aligned with TERMINAL_ORDER[i].
-_ZODIAC_ROW: tuple[tuple[str, str, str, str], ...] = (
-    ("Aries", "Fire", "Cardinal", "initiation / will-to-begin"),
-    ("Taurus", "Earth", "Fixed", "holding / material continuity"),
-    ("Gemini", "Air", "Mutable", "dual speech / bifurcation of mind"),
-    ("Cancer", "Water", "Cardinal", "shell of memory / return to origin"),
-    ("Leo", "Fire", "Fixed", "solar centrality / principal ray"),
-    ("Virgo", "Earth", "Mutable", "discrimination / sparse harvest"),
-    ("Libra", "Air", "Cardinal", "balance with the other / equilibrium"),
-    ("Scorpio", "Water", "Fixed", "occult axis / death-as-transformation"),
-    ("Sagittarius", "Fire", "Mutable", "expansion / far projection"),
-    ("Capricorn", "Earth", "Cardinal", "law / structural bound"),
-    ("Aquarius", "Air", "Fixed", "novelty outside the herd"),
-    ("Pisces", "Water", "Mutable", "dissolution / release / pathogen of form"),
+# Cycle themes (cognitive / geometric only — no celestial vocabulary).
+_CYCLE_THEMES: tuple[str, ...] = (
+    "initiation / will-to-begin",
+    "holding / material continuity",
+    "dual speech / bifurcation of mind",
+    "shell of memory / return to origin",
+    "principal axis / centrality",
+    "discrimination / sparse harvest",
+    "balance with the other / equilibrium",
+    "hidden axis / transform-through-release",
+    "expansion / far projection",
+    "law / structural bound",
+    "novelty outside the herd",
+    "dissolution / release / pathogen of form",
 )
 
-NATURAL_PATHOGEN = "Df"  # Pisces — 12th reactive
-WATER_OF_DEATH = "Water"
+NATURAL_PATHOGEN = "Df"  # 12th reactive — Diffuse
 
 HERMETIC_PRINCIPLES: tuple[str, ...] = (
     "Mentalism",
@@ -83,21 +81,17 @@ def build_hermetic_table() -> dict[str, HermeticReactive]:
     """Map each terminal symbol to its hermetic reactive record."""
     table: dict[str, HermeticReactive] = {}
     for i, symbol in enumerate(TERMINAL_ORDER):
-        sign, element, modality, house = _ZODIAC_ROW[i]
         spec: TerminalSpec = TERMINAL_BY_SYMBOL[symbol]
         table[symbol] = HermeticReactive(
             symbol=symbol,
             name=spec.name,
             index=i + 1,
-            sign=sign,
-            element=element,
-            modality=modality,
-            house_theme=house,
+            theme=_CYCLE_THEMES[i],
             math_role=spec.description,
             functional=spec.functional,
             functional_display=unravel(symbol),
             is_natural_pathogen=(symbol == NATURAL_PATHOGEN),
-            is_water=(element == WATER_OF_DEATH),
+            is_release=(symbol in RELEASE),
             polar_note=f"{spec.polarity} · {spec.domain}/{spec.sub_axis}",
         )
     return table
@@ -111,18 +105,24 @@ def describe_sequence(symbols: tuple[str, ...]) -> str:
     parts: list[str] = []
     for s in symbols:
         h = HERMETIC_TABLE[s]
-        tag = "PATHOGEN" if h.is_natural_pathogen else h.element.upper()
+        tag = "PATHOGEN" if h.is_natural_pathogen else (
+            "RELEASE" if h.is_release else h.polar_note.split(" · ")[0]
+        )
         parts.append(
-            f"{h.symbol}={h.name}/{h.sign}[{tag}]{h.functional_display}"
+            f"{h.symbol}={h.name}[{tag}]{h.functional_display}"
         )
     return " → ".join(parts)
 
 
-def water_load(symbols: tuple[str, ...]) -> float:
-    """Fraction of water-element reactives in the sequence."""
+def release_load(symbols: tuple[str, ...]) -> float:
+    """Fraction of release-triad reactives (Rt, Ox, Df) in the sequence."""
     if not symbols:
         return 0.0
-    return sum(1 for s in symbols if HERMETIC_TABLE[s].is_water) / len(symbols)
+    return sum(1 for s in symbols if HERMETIC_TABLE[s].is_release) / len(symbols)
+
+
+# Back-compat alias used by older call sites
+water_load = release_load
 
 
 def pathogen_present(symbols: tuple[str, ...]) -> bool:

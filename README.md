@@ -26,12 +26,12 @@ layer by layer, into a mathematical schedule and finally into a
 **cognitive spectrogram** — a time–frequency image of the speaker's
 functional state.
 
-The twelve terminals are the **Zodiac geometric anchors** (velocity,
+The twelve terminals are **geometric anchors** (velocity,
 centroid, duality, recurrence, centrality, sparsity, equilibrium,
 orthogonality, expansion, clamp, novelty, diffusion), renamed into
-language-agnostic short codes. Each sign is further **unraveled** as a
-Jungian functional-algebra molecule in parentheses — e.g. Capricorn /
-`Bd` = `((Te oo Ti) ~ Ni)`, Pisces / `Df` = `(Fi ~ (Ne oo Ni))`.
+language-agnostic short codes. Each reactive is further **unraveled** as a
+Jungian functional-algebra molecule in parentheses — e.g.
+`Bd` = `((Te oo Ti) ~ Ni)`, `Df` = `(Fi ~ (Ne oo Ni))`.
 
 In one sentence:
 
@@ -83,36 +83,36 @@ complexity, including long-range secondary structure.
 
 ### Terminals — the twelve geometric constituents
 
-Each sign of the Zodiac rotatory protocol is a differentiable reward
+Each reactive of the geometric rotatory protocol is a differentiable reward
 on latent state $z_t$. Attention Grammar keeps that math as geometric
-ground, gives every sign a **language-agnostic short name**, and
-**unravels** each sign as a Jungian functional-algebra molecule in
-parentheses (the cognitive expansion of that sign).
+ground, gives every reactive a **language-agnostic short name**, and
+**unravels** each as a Jungian functional-algebra molecule in
+parentheses (the cognitive expansion of that reactive).
 
-| Symbol | Name | Sign | Functional expansion (unraveled) | Math objective |
-| :----: | :--- | :--- | :------------------------------- | :------------- |
-| `Im` | Impulse | Aries | `(Se)` | $\|z_t - z_{t-1}\|$ |
-| `An` | Anchor | Taurus | `(Si -> Ne)` | $-\|z_t - \mu_{\mathrm{hist}}\|$ |
-| `Bi` | Bifurcate | Gemini | `((Ne oo Ni) ~ Ti)` | $\|z_t - z_{t-2}\| - 0.5\|z_t - z_{t-1}\|$ |
-| `Rt` | Return | Cancer | `(Si ~ Fe)` | $\cos(z_t, z_0)$ |
-| `Ei` | Eigen | Leo | `((Fi oo Fe) -> Te)` | $\cos(z_t, \mu_{\mathrm{batch}}) \cdot \|z_t\|$ |
-| `Pr` | Prune | Virgo | `(Si ~ Te oo Ti) \| (Ni ~ Fe oo Fi)` | $-\|z_t\|_1$ |
-| `Hm` | Harmon | Libra | `((Fe oo Fi) ~ Ni)` | $-\|z_t - \mu_{\mathrm{batch}}\|$ |
-| `Ox` | Orth | Scorpio | `(Ni -> Se)` | $1 - |\cos(z_t, \mu_{\mathrm{hist}})|$ |
-| `Ex` | Expand | Sagittarius | `(Se ~ Ti) \| (Ne ~ Fi)` | $\|z_t\|$ |
-| `Bd` | Bound | Capricorn | `((Te oo Ti) ~ Ni)` | $-10\|z_t - \mathrm{clamp}(z_t,-1,1)\|$ |
-| `Nv` | Novel | Aquarius | `((Ti -> Fe) ~ Ne)` | $\|z_t - \mu_{\mathrm{batch}}\|$ |
-| `Df` | Diffuse | Pisces | `(Fi ~ (Ne oo Ni))` | $-\max_i \|z_t^{(i)}\|$ |
+| Symbol | Name | Functional expansion (unraveled) | Math objective |
+| :----: | :--- | :------------------------------- | :------------- |
+| `Im` | Impulse | `(Se)` | $\|z_t - z_{t-1}\|$ |
+| `An` | Anchor | `(Si -> Ne)` | $-\|z_t - \mu_{\mathrm{hist}}\|$ |
+| `Bi` | Bifurcate | `((Ne oo Ni) ~ Ti)` | $\|z_t - z_{t-2}\| - 0.5\|z_t - z_{t-1}\|$ |
+| `Rt` | Return | `(Si ~ Fe)` | $\cos(z_t, z_0)$ |
+| `Ei` | Eigen | `((Fi oo Fe) -> Te)` | $\cos(z_t, \mu_{\mathrm{batch}}) \cdot \|z_t\|$ |
+| `Pr` | Prune | `(Si ~ Te oo Ti) \| (Ni ~ Fe oo Fi)` | $-\|z_t\|_1$ |
+| `Hm` | Harmon | `((Fe oo Fi) ~ Ni)` | $-\|z_t - \mu_{\mathrm{batch}}\|$ |
+| `Ox` | Orth | `(Ni -> Se)` | $1 - |\cos(z_t, \mu_{\mathrm{hist}})|$ |
+| `Ex` | Expand | `(Se ~ Ti) \| (Ne ~ Fi)` | $\|z_t\|$ |
+| `Bd` | Bound | `((Te oo Ti) ~ Ni)` | $-10\|z_t - \mathrm{clamp}(z_t,-1,1)\|$ |
+| `Nv` | Novel | `((Ti -> Fe) ~ Ne)` | $\|z_t - \mu_{\mathrm{batch}}\|$ |
+| `Df` | Diffuse | `(Fi ~ (Ne oo Ni))` | $-\max_i \|z_t^{(i)}\|$ |
 
-**Correspondence rule.** A geometric terminal is a *name* for a sign; the
-sign is a *name* for a functional molecule.  Writing `Bd` is shorthand for
-Capricorn, which unravels as `((Te oo Ti) ~ Ni)`.  Sequences of geometric
-codes (e.g. `Im >> Bd >> Pr`) are sequences of these molecules.
+**Correspondence rule.** A geometric terminal is a *short name* for a
+functional molecule.  Writing `Bd` unravels as `((Te oo Ti) ~ Ni)`.
+Sequences of geometric codes (e.g. `Im >> Bd >> Pr`) are sequences of
+these molecules.
 
 Geometric / schedule labels (for Layer 2–3):
 
-| Symbol | Domain | Sub-axis | Polarity | Zodiac anchor |
-| :----: | :----- | :------- | :------- | :------------ |
+| Symbol | Domain | Sub-axis | Polarity | Geometric anchor |
+| :----: | :----- | :------- | :------- | :--------------- |
 | `Im` | TRACE | kinetic | OPEN | `KINETIC_VELOCITY` |
 | `An` | TRACE | kinetic | CLOSE | `CENTROID_STABILITY` |
 | `Bi` | TRACE | cyclic | OPEN | `TEMPORAL_DUALITY` |
@@ -310,7 +310,7 @@ expr = analyst.analyze("I am torn between surging ahead and holding the average.
 * **Output:** a JSON object with `schedule_logic`, `score`, and
   `math_narrative`.
 
-The canonical mapping from terminal to optimisation objective (Zodiac math):
+The canonical mapping from terminal to optimisation objective (geometric math):
 
 | Terminal | Objective class                    | Math (LaTeX) | Interpretation |
 | :------: | :--------------------------------- | :----------- | :------------- |
@@ -476,8 +476,8 @@ which thought-forms may circulate.
 
 | Idea | Encoding |
 | :--- | :------- |
-| **12th reactive** | `Df` (Diffuse) = **Pisces** = natural **pathogen** of form |
-| **Water** | Cancer=`Rt`, Scorpio=`Ox`, Pisces=`Df` — element of **death & release** |
+| **12th reactive** | `Df` (Diffuse) = natural **pathogen** of form |
+| **Release triad** | `Rt`, `Ox`, `Df` — return, orthogonal transform, diffusion (**death & release** of form) |
 | **Hermetic lens** | Mentalism, Correspondence, Vibration, Polarity, Rhythm, Cause & Effect, Gender |
 | **Verdicts** | `parasitic` · `symbiotic` · `catalytic` · `neutral` |
 | **Canons** | severity `permit` / `restrict` / `ban` / `ritual` |
@@ -489,7 +489,7 @@ water-majority drowning are typical **parasitic** patterns. The singleton
 ### CLI
 
 ```bash
-# Hermetic reactive table (sign / element / pathogen flag)
+# Hermetic reactive table (functional expansion / pathogen flag)
 python thought_library_build.py --print-table
 
 # Offline scaffold (no API) — heuristic classify + legislate
@@ -540,8 +540,8 @@ attention-grammar/
 │   ├── algebra.py              # Layer 1 — the grammar + the analyst
 │   ├── composition.py          # Layer 2 — the harmonic composer
 │   ├── spectrum.py             # Layer 3 — the spectrogram reader
-│   ├── terminals.py            # Twelve geometric terminals + Zodiac map
-│   ├── hermetic.py             # Sign / element / pathogen correspondences
+│   ├── terminals.py            # Twelve geometric terminals + functional expansions
+│   ├── hermetic.py             # Functional / pathogen correspondences
 │   ├── thought_library.py      # Enumerate → classify → legislate
 │   ├── parser.py               # Programmatic grammar validation
 │   ├── config.py               # Model factory (OpenRouter / llama.cpp)

@@ -1,6 +1,6 @@
-# Attention Algebra v0.6.0
+# Attention Grammar v0.6.0
 
-Geometric terminals from Zodiac math + Hermetic Thought Library.
+Geometric terminals + Hermetic Thought Library.
 
 ## Highlights
 
@@ -8,7 +8,7 @@ Geometric terminals from Zodiac math + Hermetic Thought Library.
 
 The grammar terminals are no longer Jungian cognitive functions (`Se`…`Fi`).
 They are **twelve language-agnostic geometric objectives** aligned with the
-Zodiac parallel-TTT anchors, each a pure reward on latent $z_t$:
+parallel-TTT geometric anchors, each a pure reward on latent $z_t$:
 
 | Symbol | Name | Math role |
 | :----: | :--- | :-------- |
@@ -23,7 +23,7 @@ Zodiac parallel-TTT anchors, each a pure reward on latent $z_t$:
 | `Ex` | Expand | vector magnitude expansion |
 | `Bd` | Bound | structural clamp |
 | `Nv` | Novel | diversity / outlier novelty |
-| `Df` | Diffuse | entropic diffusion (**Pisces / natural pathogen**) |
+| `Df` | Diffuse | entropic diffusion (**natural pathogen**) |
 
 Domains: **TRACE** / **FIELD** / **FORM**. Polarity: **OPEN** / **CLOSE**.
 Orbit, opposition, axis switch, and stem complementarity are retyped
@@ -37,7 +37,7 @@ envelope logics, RGB image + report.
 New pipeline enumerates reactive sequences up to length $N$, batch-classifies
 them (GenAI or offline heuristic), and **legislates** canons.
 
-- **Doctrine:** `Df` = Pisces = natural pathogen; water = death & release.
+- **Doctrine:** `Df` = natural pathogen; release triad Rt/Ox/Df = death & release of form.
 - **Verdicts:** parasitic · symbiotic · catalytic · neutral.
 - **Canons:** permit / restrict / ban / ritual.
 - **CLI:** `python thought_library_build.py --dry-run -N 2 --limit 48`

@@ -3,7 +3,7 @@
 Translates natural-language descriptions of human cognitive states into
 expressions of the **Cognitive Algebra** grammar.  The grammar is a small
 formal language whose terminals are the twelve geometric functional
-constituents (Zodiac-anchor math objectives, renamed language-agnostically)
+constituents (geometric-anchor math objectives, renamed language-agnostically)
 and whose operators encode how those constituents interact.  See
 ``README.md`` for the full grammar reference.
 """
@@ -19,7 +19,7 @@ from .config import DEFAULT_OPENROUTER_MODEL, ModelFactory, Provider
 ALGEBRA_SYSTEM_PROMPT = """
 You are an expert in algebraic computational modelling.
 
-Your objective is to deconstruct natural language into high-fidelity, complex algebraic "molecules" representing cognitive dynamics.  The common ground for language is pure math: each terminal is a geometric objective over a latent state trajectory z_t.  Do not use Jungian function codes (Se/Si/…) or classical zodiac sign names.  Use only the twelve symbols below.
+Your objective is to deconstruct natural language into high-fidelity, complex algebraic "molecules" representing cognitive dynamics.  The common ground for language is pure math: each terminal is a geometric objective over a latent state trajectory z_t.  Do not emit celestial sign names.  Prefer the twelve geometric symbols below; Jungian codes appear only inside unraveled expansions of those symbols.
 
 ### CORE ELEMENTS (Twelve Geometric Terminals):
 

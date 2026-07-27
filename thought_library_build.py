@@ -6,8 +6,8 @@ each chain as parasitic / symbiotic / neutral / catalytic via GenAI (or a
 local hermetic heuristic in --dry-run), then legislates canons.
 
 Doctrine:
-  - Df (Diffuse) = Pisces = 12th reactive = natural pathogen
-  - Water = death and release
+  - Df (Diffuse) = 12th reactive = natural pathogen
+  - Release triad Rt/Ox/Df = death and release of form
   - Analysis invokes the seven Hermetic principles
 
 Examples
@@ -57,7 +57,7 @@ def main(argv: list[str] | None = None) -> int:
         description=(
             "Build a Thought Library: permute reactives up to length N, "
             "classify parasites under hermetic law, legislate canons. "
-            f"Natural pathogen = {NATURAL_PATHOGEN} (Pisces / water of death)."
+            f"Natural pathogen = {NATURAL_PATHOGEN} (Diffuse / 12th reactive)."
         )
     )
     parser.add_argument(
@@ -133,15 +133,12 @@ def main(argv: list[str] | None = None) -> int:
     _configure_logging(args.verbose)
 
     if args.print_table:
-        print(f"{'Sym':<4} {'Name':<10} {'Sign':<12} {'Element':<6} Functional expansion")
-        print("-" * 88)
+        print(f"{'Sym':<4} {'Name':<12} Functional expansion")
+        print("-" * 72)
         for sym in TERMINAL_ORDER:
             h = HERMETIC_TABLE[sym]
             flag = "  *PATHOGEN*" if h.is_natural_pathogen else ""
-            print(
-                f"{h.symbol:<4} {h.name:<10} {h.sign:<12} {h.element:<6} "
-                f"{h.functional_display}{flag}"
-            )
+            print(f"{h.symbol:<4} {h.name:<12} {h.functional_display}{flag}")
         return 0
 
     universe = count_sequences(
@@ -187,7 +184,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print()
     print("=== Thought Library complete ===")
-    print(f"  Pathogen:     {lib.pathogen_symbol} (Pisces / water of death & release)")
+    print(f"  Pathogen:     {lib.pathogen_symbol} (Diffuse / 12th reactive)")
     print(f"  Analyzed:     {lib.stats.get('analyzed')}")
     print(f"  Parasitic:    {lib.stats.get('parasitic')}")
     print(f"  Symbiotic:    {lib.stats.get('symbiotic')}")

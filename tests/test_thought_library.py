@@ -4,7 +4,7 @@ from attention_algebra.hermetic import (
     HERMETIC_TABLE,
     NATURAL_PATHOGEN,
     pathogen_present,
-    water_load,
+    release_load,
 )
 from attention_algebra.terminals import TERMINAL_ORDER
 from attention_algebra.thought_library import (
@@ -16,36 +16,31 @@ from attention_algebra.thought_library import (
 )
 
 
-def test_twelve_hermetic_signs():
+def test_twelve_hermetic_reactives():
     assert len(HERMETIC_TABLE) == 12
-    assert HERMETIC_TABLE[NATURAL_PATHOGEN].sign == "Pisces"
     assert HERMETIC_TABLE[NATURAL_PATHOGEN].is_natural_pathogen
-    assert HERMETIC_TABLE[NATURAL_PATHOGEN].element == "Water"
-    # 12th in Great-Year order
+    assert HERMETIC_TABLE[NATURAL_PATHOGEN].name == "Diffuse"
     assert TERMINAL_ORDER[11] == NATURAL_PATHOGEN
 
 
 def test_functional_expansions():
-    from attention_algebra.terminals import unravel, SIGN_FUNCTIONAL
+    from attention_algebra.terminals import SYMBOL_FUNCTIONAL, unravel
 
     assert unravel("Im") == "(Se)"
-    assert unravel("Aries") == "(Se)"
     assert unravel("Bd") == "((Te oo Ti) ~ Ni)"
-    assert unravel("Capricorn") == "((Te oo Ti) ~ Ni)"
     assert unravel("Df") == "(Fi ~ (Ne oo Ni))"
-    assert unravel("Virgo") == "(Si ~ Te oo Ti) | (Ni ~ Fe oo Fi)"
-    assert unravel("Sagittarius") == "(Se ~ Ti) | (Ne ~ Fi)"
-    assert SIGN_FUNCTIONAL["Leo"] == "((Fi oo Fe) -> Te)"
+    assert unravel("Pr") == "(Si ~ Te oo Ti) | (Ni ~ Fe oo Fi)"
+    assert unravel("Ex") == "(Se ~ Ti) | (Ne ~ Fi)"
+    assert SYMBOL_FUNCTIONAL["Ei"] == "((Fi oo Fe) -> Te)"
     assert HERMETIC_TABLE["An"].functional == "(Si -> Ne)"
 
 
-def test_water_triad():
-    water = [s for s, h in HERMETIC_TABLE.items() if h.is_water]
-    assert set(water) == {"Rt", "Ox", "Df"}  # Cancer, Scorpio, Pisces
+def test_release_triad():
+    release = [s for s, h in HERMETIC_TABLE.items() if h.is_release]
+    assert set(release) == {"Rt", "Ox", "Df"}
 
 
 def test_count_permutations_n2():
-    # P(12,1)+P(12,2) = 12 + 132 = 144
     assert count_sequences(2, min_length=1) == 144
 
 
@@ -77,8 +72,8 @@ def test_balanced_without_pathogen_symbiotic_or_neutral():
     assert not rec.pathogen
 
 
-def test_water_load():
-    assert water_load(("Rt", "Ox", "Df")) == 1.0
+def test_release_load():
+    assert release_load(("Rt", "Ox", "Df")) == 1.0
     assert pathogen_present(("Im", "Df"))
 
 
@@ -94,4 +89,4 @@ def test_dry_run_build_and_save(tmp_path):
     paths = save_library(lib, tmp_path)
     assert paths["json"].is_file()
     assert paths["legislation"].is_file()
-    assert "Pisces" in paths["legislation"].read_text(encoding="utf-8")
+    assert "Diffuse" in paths["legislation"].read_text(encoding="utf-8")

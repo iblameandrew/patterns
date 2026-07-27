@@ -6,7 +6,7 @@ Pipeline
    reactives up to sequence length ``N``.
 2. **Batch-analyze** each sequence with a GenAI call under a hermetic lens:
    Mentalism, Correspondence, Vibration, Polarity, Rhythm, Cause & Effect,
-   Gender.  Water is death/release; the 12th reactive ``Df`` (Pisces) is the
+   Gender.  Release triad Rt/Ox/Df; the 12th reactive ``Df`` is the
    natural pathogen of form.
 3. **Legislate** a second GenAI pass over the parasitic set to emit canons —
    formal laws for the Thought Library (permitted, restricted, banned chains).
@@ -37,7 +37,7 @@ from .hermetic import (
     describe_sequence,
     pathogen_position,
     pathogen_present,
-    water_load,
+    release_load,
 )
 from .terminals import TERMINAL_ORDER, TERMINAL_BY_SYMBOL
 from .utils import strip_code_fences, strip_think_tags
@@ -62,7 +62,7 @@ class ThoughtRecord:
     expression: str  # e.g. "Im >> An >> Df"
     hermetic_gloss: str
     length: int
-    water_load: float
+    release_load: float
     pathogen: bool
     pathogen_index: int | None
     verdict: Verdict
@@ -204,7 +204,7 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
     - Df as sole member: pure pathogen monad — catalytic release, not parasite host.
     """
     gloss = describe_sequence(seq)
-    wl = water_load(seq)
+    wl = release_load(seq)
     has_p = pathogen_present(seq)
     p_idx = pathogen_position(seq)
     expr = " >> ".join(seq)
@@ -218,7 +218,7 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
         f"Mentalism: the chain {expr} is a complete mental state of length {len(seq)}."
     )
     analysis_bits.append(
-        f"Correspondence: above={gloss}; water_load={wl:.2f}; "
+        f"Correspondence: above={gloss}; release_load={wl:.2f}; "
         f"pathogen={'yes@'+str(p_idx) if has_p else 'no'}."
     )
 
@@ -226,15 +226,15 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
         verdict = "catalytic"
         confidence = 0.9
         analysis_bits.append(
-            "Pisces alone is the natural pathogen of form — pure release, "
-            "not a parasite of another host sequence.  Water completes the cycle."
+            "Diffuse alone is the natural pathogen of form — pure release, "
+            "not a parasite of another host sequence.  Release completes the cycle."
         )
         law_hint = "ritual: allow Df monad as rite of release; ban as host-entry prefix"
     elif has_p and p_idx == 0 and len(seq) > 1:
         verdict = "parasitic"
         confidence = 0.88
         analysis_bits.append(
-            "Polarity inverted: Df leads.  Death-water enters before any form "
+            "Polarity inverted: Df leads.  Pathogen enters before any form "
             "can cohere — parasitic unmaking of subsequent reactives."
         )
         law_hint = "ban: sequences beginning with Df of length>1"
@@ -242,10 +242,10 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
         verdict = "parasitic"
         confidence = 0.8
         analysis_bits.append(
-            "Rhythm drowned: majority water + pathogen.  Cancer/Scorpio/Pisces "
-            "axes flood the chain; release becomes consumption of host drives."
+            "Rhythm drowned: majority release-triad + pathogen.  "
+            "Rt/Ox/Df flood the chain; release becomes consumption of host drives."
         )
-        law_hint = "restrict: high-water sequences containing Df"
+        law_hint = "restrict: high-release sequences containing Df"
     elif has_p and p_idx is not None and p_idx > 0:
         prev = seq[p_idx - 1]
         if prev in ("Ex", "Ei", "Nv", "Im"):
@@ -268,10 +268,10 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
         verdict = "neutral"
         confidence = 0.6
         analysis_bits.append(
-            "Water without Pisces: emotional density without full dissolution. "
-            "Monitor for Scorpio fixation (Ox) turning stagnant."
+            "Release density without full pathogen: emotional density without "
+            "full dissolution.  Monitor for Orth fixation (Ox) turning stagnant."
         )
-        law_hint = "observe water triads without Df"
+        law_hint = "observe release triads without Df"
     else:
         # Symbiotic default when OPEN and CLOSE alternate and no pathogen abuse
         polarities = [TERMINAL_BY_SYMBOL[s].polarity for s in seq]
@@ -301,7 +301,7 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
         expression=expr,
         hermetic_gloss=gloss,
         length=len(seq),
-        water_load=round(wl, 3),
+        release_load=round(wl, 3),
         pathogen=has_p,
         pathogen_index=p_idx,
         verdict=verdict,
@@ -321,17 +321,17 @@ You are a Hermetic legislator of thought-forms for Attention Grammar.
 
 ## Doctrine
 - The twelve **reactives** are geometric terminals (Im, An, Bi, Rt, Ei, Pr, Hm, Ox, Ex, Bd, Nv, Df).
-- Each maps to a tropical sign in Great-Year order; **Df = Pisces = 12th reactive = natural pathogen**.
-- **Water** (Cancer=Rt, Scorpio=Ox, Pisces=Df) is the element of **death and release**.
-- A **parasitic** thought-sequence hijacks or dissolves host drives for its own persistence (especially leading Df, boom-then-melt Ex/Ei/Nv/Im >> Df, or water-majority drowning).
+- Cycle order 1..12; **Df = 12th reactive = natural pathogen** (unravels as (Fi ~ (Ne oo Ni))).
+- **Release triad** Rt, Ox, Df = return, orthogonal transform, diffusion (death and release of form).
+- A **parasitic** thought-sequence hijacks or dissolves host drives for its own persistence (especially leading Df, boom-then-melt Ex/Ei/Nv/Im >> Df, or release-majority drowning).
 - A **symbiotic** sequence balances OPEN/CLOSE and domains without unmaking the host.
-- A **catalytic** sequence uses Df (or water) as deliberate release / death that completes a cycle without feeding on other reactives.
+- A **catalytic** sequence uses Df (or the release triad) as deliberate release that completes a cycle without feeding on other reactives.
 - A **neutral** sequence is incomplete or mono-polar without clear harm or generation.
 
 Apply the seven Hermetic principles to each sequence:
 Mentalism, Correspondence, Vibration, Polarity, Rhythm, Cause and Effect, Gender.
 
-## Reactive table (symbol = name / sign / element)
+## Reactive table (symbol = name / functional expansion)
 {reactive_table}
 
 ## Task
@@ -339,7 +339,7 @@ For each sequence below, return a JSON **array** of objects (same order) with ke
 - "sequence": list of symbols
 - "verdict": "parasitic" | "symbiotic" | "neutral" | "catalytic"
 - "confidence": number 0..1
-- "hermetic_analysis": 2-4 sentences citing at least two Hermetic principles and the water/pathogen doctrine
+- "hermetic_analysis": 2-4 sentences citing at least two Hermetic principles and the release/pathogen doctrine
 - "legislation_hint": one short law-like directive (permit / restrict / ban / ritual + pattern)
 
 Output ONLY valid JSON. No markdown fences, no commentary.
@@ -355,7 +355,7 @@ Given classified thought-sequences (especially the parasitic ones), emit a **Can
 formal laws that govern which reactive permutations may circulate in the library.
 
 Doctrine reminders:
-- Df (Pisces, 12th) is the natural pathogen; water is death and release.
+- Df (12th) is the natural pathogen; release triad is death and release of form.
 - Parasites must be banned or restricted; catalytic release may be ritualized.
 - Laws must be enforceable as pattern rules on sequences of symbols.
 
@@ -378,7 +378,7 @@ Return a JSON object:
   ]
 }}
 
-Emit 5–12 canons. Cover: leading pathogen, water drowning, boom-collapse, balanced orbits, Df monad rite, and at least one permit for symbiotic TRACE~FORM style chains.
+Emit 5–12 canons. Cover: leading pathogen, release drowning, boom-collapse, balanced orbits, Df monad rite, and at least one permit for symbiotic TRACE~FORM style chains.
 Output ONLY valid JSON.
 """
 
@@ -389,9 +389,8 @@ def _reactive_table_text() -> str:
         h = HERMETIC_TABLE[sym]
         flag = " **NATURAL PATHOGEN**" if h.is_natural_pathogen else ""
         lines.append(
-            f"- {h.symbol} = {h.name} / {h.sign} / {h.element} / {h.modality} "
-            f"— functional {h.functional_display} — {h.house_theme} | "
-            f"math: {h.math_role}{flag}"
+            f"- {h.symbol} = {h.name} — functional {h.functional_display} "
+            f"— {h.theme} | math: {h.math_role}{flag}"
         )
     return "\n".join(lines)
 
@@ -441,7 +440,7 @@ def _records_from_genai_batch(
                 expression=" >> ".join(seq),
                 hermetic_gloss=describe_sequence(seq),
                 length=len(seq),
-                water_load=round(water_load(seq), 3),
+                release_load=round(release_load(seq), 3),
                 pathogen=pathogen_present(seq),
                 pathogen_index=pathogen_position(seq),
                 verdict=verdict,  # type: ignore[arg-type]
@@ -517,7 +516,7 @@ class ThoughtLibrarian:
                 "sequence": r.sequence,
                 "verdict": r.verdict,
                 "confidence": r.confidence,
-                "water_load": r.water_load,
+                "release_load": r.release_load,
                 "pathogen": r.pathogen,
                 "hint": r.legislation_hint,
                 "analysis": r.hermetic_analysis[:400],
@@ -566,8 +565,9 @@ class ThoughtLibrarian:
         symbiotic = [r for r in records if r.verdict == "symbiotic"]
         preamble = (
             "By Mentalism and Correspondence: as the algebra of reactives above, "
-            "so the library of thoughts below.  Water is death and release; "
-            f"{NATURAL_PATHOGEN} (Pisces, 12th) is the natural pathogen of form. "
+            "so the library of thoughts below.  Release triad Rt/Ox/Df is death "
+            f"and release of form; {NATURAL_PATHOGEN} (12th reactive, Diffuse) "
+            "is the natural pathogen of form. "
             "These canons bind all sequences up to the legislated length."
         )
         canons = [
@@ -576,7 +576,7 @@ class ThoughtLibrarian:
                 title="Ban on Leading Pathogen",
                 body=(
                     "No thought-sequence of length greater than one shall begin with "
-                    f"{NATURAL_PATHOGEN} (Diffuse / Pisces).  Death-water must not "
+                    f"{NATURAL_PATHOGEN} (Diffuse).  Pathogen-leading sequences must not "
                     "enter before form coheres; such entry is parasitic unmaking."
                 ),
                 severity="ban",
@@ -613,14 +613,14 @@ class ThoughtLibrarian:
             ),
             Canon(
                 id="C004",
-                title="Water-Majority Drowning",
+                title="Release-Majority Drowning",
                 body=(
-                    "When water_load >= 0.5 and the pathogen is present, the chain "
-                    "is restricted: Cancer/Scorpio/Pisces flood dissolves host drives. "
-                    "Water is death and release — not endless submersion of OPEN will."
+                    "When release_load >= 0.5 and the pathogen is present, the chain "
+                    "is restricted: release triad (Rt/Ox/Df) flood dissolves host drives. "
+                    "Release is completion — not endless submersion of OPEN will."
                 ),
                 severity="restrict",
-                applies_to=[r.key() for r in parasitic if r.water_load >= 0.5][:20],
+                applies_to=[r.key() for r in parasitic if r.release_load >= 0.5][:20],
                 hermetic_principle="Rhythm",
             ),
             Canon(
@@ -764,7 +764,7 @@ def save_library(lib: ThoughtLibrary, out_dir: Path) -> dict[str, Path]:
         f"_Created: {lib.created_at}_  ",
         f"_Model: {lib.model}_  ",
         f"_Max sequence length N: {lib.max_length}_  ",
-        f"_Natural pathogen: `{lib.pathogen_symbol}` (Pisces / Diffuse / Water of death & release)_",
+        f"_Natural pathogen: `{lib.pathogen_symbol}` (Diffuse / 12th reactive / release of form)_",
         "",
         "## Preamble",
         "",
@@ -803,7 +803,7 @@ def save_library(lib: ThoughtLibrary, out_dir: Path) -> dict[str, Path]:
     md_lines.extend(["## Parasitic index", ""])
     for r in lib.parasitic():
         md_lines.append(
-            f"- `{r.expression}` (conf={r.confidence:.2f}, water={r.water_load}) "
+            f"- `{r.expression}` (conf={r.confidence:.2f}, release={r.release_load}) "
             f"— {r.legislation_hint}"
         )
     md_lines.extend(["", "## Catalytic / release rites", ""])

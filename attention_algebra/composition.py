@@ -20,7 +20,7 @@ COMPOSER_SYSTEM_PROMPT = """
 You are a Mathematical Physicist and Harmonic Composer for a Computational Psychology engine.
 Your task is to translate a "Cognitive Algebra" expression into a "Mathematical Schedule" whose objectives map to spectral bands for spectrogram rendering.
 
-The twelve terminals are language-agnostic geometric anchors (Zodiac math objectives renamed).  Use only these symbols: Im, An, Bi, Rt, Ei, Pr, Hm, Ox, Ex, Bd, Nv, Df.
+The twelve terminals are language-agnostic geometric anchors (math objectives over z_t).  Use only these symbols: Im, An, Bi, Rt, Ei, Pr, Hm, Ox, Ex, Bd, Nv, Df.
 
 ### MAPPING LOGIC (Geometric Terminal -> Mathematical Objective):
 
