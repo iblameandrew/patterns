@@ -131,10 +131,7 @@ def _equation_for_logic(logic: str, score: list, freq: float) -> str:
     if eq_type == "orbital":
         for i, track in enumerate(score):
             trig = "\\sin" if i % 2 == 0 else "\\cos"
-            terms.append(
-                f"{track['mass']} \\cdot {trig}(\\omega t) "
-                f"\\cdot [{track['formula']}]"
-            )
+            terms.append(f"{track['mass']} \\cdot {trig}(\\omega t) \\cdot [{track['formula']}]")
         eq = " + ".join(terms)
         return f"$$ J(\\theta) = \\sum_{{t}} ({eq}) $$" if eq else ""
 
@@ -142,13 +139,10 @@ def _equation_for_logic(logic: str, score: list, freq: float) -> str:
         if not score:
             return ""
         t0 = score[0]
-        terms.append(
-            f"({t0['mass']} \\cdot e^{{-\\lambda t}}) \\cdot [{t0['formula']}]"
-        )
+        terms.append(f"({t0['mass']} \\cdot e^{{-\\lambda t}}) \\cdot [{t0['formula']}]")
         for track in score[1:]:
             terms.append(
-                f"({track['mass']} \\cdot (1 - e^{{-\\lambda t}})) "
-                f"\\cdot [{track['formula']}]"
+                f"({track['mass']} \\cdot (1 - e^{{-\\lambda t}})) \\cdot [{track['formula']}]"
             )
         return f"$$ J(\\theta) = \\int ({' + '.join(terms)}) dt $$"
 
@@ -166,9 +160,7 @@ def _equation_for_logic(logic: str, score: list, freq: float) -> str:
         stem_eq = " + ".join(
             f"\\min(m) \\cdot e^{{-d/\\lambda}} \\cdot [{t['formula']}]" for t in stems
         )
-        loop_eq = " + ".join(
-            f"(1 - e^{{-d/\\lambda}}) \\cdot [{t['formula']}]" for t in loops
-        )
+        loop_eq = " + ".join(f"(1 - e^{{-d/\\lambda}}) \\cdot [{t['formula']}]" for t in loops)
         parts = [p for p in (stem_eq, loop_eq) if p]
         return f"$$ J(\\theta) = {' + '.join(parts)} $$" if parts else ""
 
@@ -228,8 +220,9 @@ class Composer:
         model_name: str = DEFAULT_OPENROUTER_MODEL,
         provider: Provider = "openrouter",
         temperature: float = 0.2,
+        llm=None,
     ):
-        self.llm = ModelFactory.get_model(
+        self.llm = llm or ModelFactory.get_model(
             model_name=model_name,
             provider=provider,
             temperature=temperature,

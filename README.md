@@ -40,6 +40,8 @@ In one sentence:
 > spectrogram that maps algebraic math equivalences onto a readable
 > cognitive spectrum.*
 
+`v0.7.0` — installable `attention_algebra` library, offline tests, Docker/CI. Layers 1–2 talk to **OpenRouter** or a local **llama.cpp** server.
+
 The pipeline lifts language into spectral form:
 
 ```
@@ -396,8 +398,11 @@ image, report = reader.read(schedule)
 ```bash
 git clone https://github.com/iblameandrew/attention-grammar.git
 cd attention-grammar
-pip install -r requirements.txt
+pip install -e ".[app]"
+# tests / lint: pip install -e ".[dev]"
 ```
+
+`requirements.txt` remains a flat pin of the runtime stack.
 
 ### Configure
 
@@ -448,7 +453,33 @@ schedule = Composer(model_name=model, provider="openrouter").compose(algebra)
 
 # Layer 3: spectrogram.
 image, report = SpectrogramReader().read(schedule)
+
+# Offline / tests: inject a fake LLM (no network).
+# AlgebraAnalyst(llm=fake).analyze(...)
 ```
+
+### Tests
+
+Default suite is offline (parser, spectrum, hermetic library, injected LLM layers):
+
+```bash
+pip install -e ".[dev]"
+pytest
+ruff check attention_algebra tests app.py
+```
+
+### Docker
+
+```bash
+docker compose up app --build          # Gradio on :7860
+docker compose run --rm test           # pytest inside the test image
+```
+
+The app container defaults `LLAMA_CPP_BASE_URL` to `http://host.docker.internal:8080/v1`.
+
+### CI
+
+GitHub Actions runs Ruff, pytest on Python 3.11/3.12, and Docker builds. A `v*` tag publishes `ghcr.io/iblameandrew/attention-grammar`.
 
 ### Local llama.cpp
 

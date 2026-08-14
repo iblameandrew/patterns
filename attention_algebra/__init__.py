@@ -11,7 +11,7 @@ Each geometric terminal unravels to a Jungian functional molecule via
 
 from .algebra import AlgebraAnalyst
 from .composition import Composer
-from .config import ModelFactory
+from .config import ModelFactory, chat_model_kwargs
 from .parser import ValidationResult, are_complementary, validate_expression
 from .spectrum import SpectrogramReader, SpectrumResult
 from .terminals import (
@@ -30,6 +30,7 @@ __all__ = [
     "Composer",
     "GEOMETRIC_ANCHOR",
     "ModelFactory",
+    "chat_model_kwargs",
     "SpectrogramReader",
     "SpectrumResult",
     "TERMINALS",
@@ -47,4 +48,4 @@ __all__ = [
     "validate_expression",
 ]
 
-__version__ = "0.6.2"
+__version__ = "0.7.0"

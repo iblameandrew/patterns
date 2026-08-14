@@ -111,16 +111,23 @@ class AlgebraAnalyst:
         model_name: str = DEFAULT_OPENROUTER_MODEL,
         provider: Provider = "openrouter",
         temperature: float = 0.4,
+        llm=None,
     ):
         # Moderate temperature: the analyst needs to be creative enough to
         # interpret metaphor but stable enough to keep the syntax valid.
-        self.llm = ModelFactory.get_model(
+        self.llm = llm or ModelFactory.get_model(
             model_name=model_name,
             provider=provider,
             temperature=temperature,
         )
+        escaped = (
+            ALGEBRA_SYSTEM_PROMPT.replace("{text}", "___TEXT___")
+            .replace("{", "{{")
+            .replace("}", "}}")
+            .replace("___TEXT___", "{text}")
+        )
         self.prompt = PromptTemplate(
-            template=ALGEBRA_SYSTEM_PROMPT,
+            template=escaped,
             input_variables=["text"],
         )
         self.chain = self.prompt | self.llm

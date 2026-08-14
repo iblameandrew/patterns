@@ -115,18 +115,14 @@ _SPECTROGRAM_READER = SpectrogramReader()
 def _get_analyst(model_name: str, provider: str, credential: str) -> AlgebraAnalyst:
     key = (model_name, provider, "algebra", credential)
     if key not in _MODEL_CACHE:
-        _MODEL_CACHE[key] = AlgebraAnalyst(
-            model_name=model_name, provider=_provider_key(provider)
-        )
+        _MODEL_CACHE[key] = AlgebraAnalyst(model_name=model_name, provider=_provider_key(provider))
     return _MODEL_CACHE[key]
 
 
 def _get_composer(model_name: str, provider: str, credential: str) -> Composer:
     key = (model_name, provider, "composer", credential)
     if key not in _MODEL_CACHE:
-        _MODEL_CACHE[key] = Composer(
-            model_name=model_name, provider=_provider_key(provider)
-        )
+        _MODEL_CACHE[key] = Composer(model_name=model_name, provider=_provider_key(provider))
     return _MODEL_CACHE[key]
 
 
@@ -314,7 +310,9 @@ def build_ui() -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    build_ui().launch()
+    host = os.getenv("HOST", "127.0.0.1")
+    port = int(os.getenv("PORT", "7860"))
+    build_ui().launch(server_name=host, server_port=port)
 
 
 __all__ = [

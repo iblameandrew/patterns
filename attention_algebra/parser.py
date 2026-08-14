@@ -34,9 +34,7 @@ __all__ = [
     "CROSS_AXIS_PAIRS",
 ]
 
-TERMINAL_RE = re.compile(
-    rf"(?<![A-Za-z])(\d+)?({TERMINAL_ALT})(?![A-Za-z])"
-)
+TERMINAL_RE = re.compile(rf"(?<![A-Za-z])(\d+)?({TERMINAL_ALT})(?![A-Za-z])")
 
 
 @dataclass
@@ -69,10 +67,7 @@ def validate_expression(expr: str) -> ValidationResult:
     terminals = extract_terminals(expr)
 
     if not terminals:
-        errors.append(
-            "No recognised terminals "
-            f"({', '.join(sorted(TERMINALS))}) found"
-        )
+        errors.append(f"No recognised terminals ({', '.join(sorted(TERMINALS))}) found")
         return ValidationResult(False, errors, warnings, terminals)
 
     for term, mass in terminals:
@@ -89,8 +84,7 @@ def validate_expression(expr: str) -> ValidationResult:
         left, right = match.group(2), match.group(4)
         if domain_of(left) == domain_of(right):
             errors.append(
-                f"Orbit `~` requires different domains "
-                f"(TRACE / FIELD / FORM), got {left} ~ {right}"
+                f"Orbit `~` requires different domains (TRACE / FIELD / FORM), got {left} ~ {right}"
             )
 
     # Opposition: same sub-axis, opposite polarity
@@ -100,13 +94,9 @@ def validate_expression(expr: str) -> ValidationResult:
     ):
         left, right = match.group(2), match.group(4)
         if sub_axis_of(left) != sub_axis_of(right):
-            errors.append(
-                f"Opposition `oo` requires same sub-axis, got {left} oo {right}"
-            )
+            errors.append(f"Opposition `oo` requires same sub-axis, got {left} oo {right}")
         elif polarity_of(left) == polarity_of(right):
-            errors.append(
-                f"Opposition `oo` requires opposite polarity, got {left} oo {right}"
-            )
+            errors.append(f"Opposition `oo` requires opposite polarity, got {left} oo {right}")
 
     # Axis switch | : same domain, different sub-axis
     for match in re.finditer(
@@ -115,13 +105,9 @@ def validate_expression(expr: str) -> ValidationResult:
     ):
         left, right = match.group(2), match.group(4)
         if domain_of(left) != domain_of(right):
-            errors.append(
-                f"Axis switch `|` requires same domain, got {left} | {right}"
-            )
+            errors.append(f"Axis switch `|` requires same domain, got {left} | {right}")
         elif sub_axis_of(left) == sub_axis_of(right):
-            errors.append(
-                f"Axis switch `|` requires different sub-axis, got {left} | {right}"
-            )
+            errors.append(f"Axis switch `|` requires different sub-axis, got {left} | {right}")
 
     # Ambiguous `+`: domain switch (different domains) vs conjunction
     switch_expr = re.sub(r"fold\[[^\]]*\]", "", expr)
@@ -133,9 +119,7 @@ def validate_expression(expr: str) -> ValidationResult:
         if domain_of(left) != domain_of(right):
             pass  # valid domain switch
         elif sub_axis_of(left) == sub_axis_of(right):
-            warnings.append(
-                f"`{left} + {right}` may be conjunction; prefer `&` for linear sums"
-            )
+            warnings.append(f"`{left} + {right}` may be conjunction; prefer `&` for linear sums")
 
     # Stem pairs ::
     for match in re.finditer(
@@ -144,10 +128,7 @@ def validate_expression(expr: str) -> ValidationResult:
     ):
         left, right = match.group(2), match.group(4)
         if not are_complementary(left, right):
-            errors.append(
-                f"Stem pair `::` requires complementary terminals, "
-                f"got {left} :: {right}"
-            )
+            errors.append(f"Stem pair `::` requires complementary terminals, got {left} :: {right}")
 
     # Drag must not target a parenthesised group
     if re.search(r"->\s*\(", expr) or re.search(r"→\s*\(", expr):

@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "attention-grammar"
+version = "0.7.0"
+description = "A cognitive grammar that compiles language into spectrograms."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "iblameandrew" }]
+keywords = ["attention", "grammar", "llama.cpp", "spectrogram"]
+dependencies = [
+    "langchain>=0.2",
+    "langchain-core>=0.2",
+    "langchain-openai>=0.2",
+    "openai>=1.40",
+    "python-dotenv>=1.0",
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "matplotlib>=3.7",
+    "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+app = ["gradio>=4.0"]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/iblameandrew/attention-grammar"
+Repository = "https://github.com/iblameandrew/attention-grammar"
+
+[tool.setuptools.packages.find]
+include = ["attention_algebra*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-m \"not live\" --strict-markers"
+markers = ["live: hits OpenRouter or a llama.cpp server"]
+
+[tool.coverage.run]
+source = ["attention_algebra"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["attention_algebra", "tests", "app.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["attention_algebra", "tests"]

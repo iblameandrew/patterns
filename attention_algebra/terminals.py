@@ -241,9 +241,7 @@ CROSS_AXIS_PAIRS: dict[str, str] = {
     "Ox": "Pr",
 }
 
-SYMBOL_TO_TERMINAL: dict[str, str] = {
-    s.objective: s.symbol for s in TERMINAL_SPECS
-}
+SYMBOL_TO_TERMINAL: dict[str, str] = {s.objective: s.symbol for s in TERMINAL_SPECS}
 
 VOICE_NAME_MAP: dict[str, str] = {}
 for _spec in TERMINAL_SPECS:

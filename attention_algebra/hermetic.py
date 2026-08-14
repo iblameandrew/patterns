@@ -105,12 +105,12 @@ def describe_sequence(symbols: tuple[str, ...]) -> str:
     parts: list[str] = []
     for s in symbols:
         h = HERMETIC_TABLE[s]
-        tag = "PATHOGEN" if h.is_natural_pathogen else (
-            "RELEASE" if h.is_release else h.polar_note.split(" · ")[0]
+        tag = (
+            "PATHOGEN"
+            if h.is_natural_pathogen
+            else ("RELEASE" if h.is_release else h.polar_note.split(" · ")[0])
         )
-        parts.append(
-            f"{h.symbol}={h.name}[{tag}]{h.functional_display}"
-        )
+        parts.append(f"{h.symbol}={h.name}[{tag}]{h.functional_display}")
     return " → ".join(parts)
 
 

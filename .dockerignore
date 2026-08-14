@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+venv
+__pycache__
+*.pyc
+*.egg-info
+.pytest_cache
+.ruff_cache
+.coverage
+htmlcov
+README_.md
+RELEASE_NOTES_*.md
+thought_library_build.py

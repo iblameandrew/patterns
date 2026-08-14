@@ -123,7 +123,8 @@ def _envelopes(
 
     elif logic == "Partial Adversarial":
         for i, m in enumerate(masses):
-            envs.append(m * (1.0 if i == 0 else -0.15))
+            sign = 1.0 if i == 0 else -0.15
+            envs.append(m * sign * np.ones_like(t))
 
     elif logic == "Crossing Constraints":
         beat = np.sin(omega * t) * np.sin(omega * 1.5 * t)
@@ -235,9 +236,7 @@ class SpectrogramReader:
         power_db = 10 * np.log10(spec + 1e-12)
         return freqs, t, power_db
 
-    def _dominant_bands(
-        self, freqs: np.ndarray, power: np.ndarray, labels: list[str]
-    ) -> list[str]:
+    def _dominant_bands(self, freqs: np.ndarray, power: np.ndarray, labels: list[str]) -> list[str]:
         """Identify which terminal bands carry the most energy."""
         if not labels:
             return []
@@ -346,9 +345,7 @@ class SpectrogramReader:
         for item in composition.get("score", []):
             term = _resolve_terminal(item) or "?"
             freq = TERMINAL_FREQS.get(term, 0)
-            report_lines.append(
-                f"| {term} | {freq:.1f} | `{item.get('symbol', '')}` |"
-            )
+            report_lines.append(f"| {term} | {freq:.1f} | `{item.get('symbol', '')}` |")
 
         report = "\n".join(report_lines)
         log.debug("Rendered spectrogram: %d bands, logic=%s", len(labels), logic)

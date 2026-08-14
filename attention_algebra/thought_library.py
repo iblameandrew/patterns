@@ -39,7 +39,7 @@ from .hermetic import (
     pathogen_present,
     release_load,
 )
-from .terminals import TERMINAL_ORDER, TERMINAL_BY_SYMBOL
+from .terminals import TERMINAL_BY_SYMBOL, TERMINAL_ORDER
 from .utils import strip_code_fences, strip_think_tags
 
 log = logging.getLogger(__name__)
@@ -219,7 +219,7 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
     )
     analysis_bits.append(
         f"Correspondence: above={gloss}; release_load={wl:.2f}; "
-        f"pathogen={'yes@'+str(p_idx) if has_p else 'no'}."
+        f"pathogen={'yes@' + str(p_idx) if has_p else 'no'}."
     )
 
     if len(seq) == 1 and seq[0] == NATURAL_PATHOGEN:
@@ -292,9 +292,7 @@ def heuristic_classify(seq: tuple[str, ...]) -> ThoughtRecord:
             )
             law_hint = "observe mono-polar chains"
 
-    analysis_bits.append(
-        "Principles invoked: " + ", ".join(HERMETIC_PRINCIPLES) + "."
-    )
+    analysis_bits.append("Principles invoked: " + ", ".join(HERMETIC_PRINCIPLES) + ".")
 
     return ThoughtRecord(
         sequence=list(seq),
@@ -465,13 +463,14 @@ class ThoughtLibrarian:
         temperature: float = 0.3,
         *,
         dry_run: bool = False,
+        llm=None,
     ):
         self.model_name = model_name
         self.provider = provider
         self.temperature = temperature
         self.dry_run = dry_run
-        self._llm = None
-        if not dry_run:
+        self._llm = llm
+        if not dry_run and self._llm is None:
             self._llm = ModelFactory.get_model(
                 model_name=model_name,
                 provider=provider,
@@ -491,9 +490,7 @@ class ThoughtLibrarian:
 
         block_lines = []
         for i, seq in enumerate(sequences):
-            block_lines.append(
-                f"{i + 1}. {list(seq)}  |  {describe_sequence(seq)}"
-            )
+            block_lines.append(f"{i + 1}. {list(seq)}  |  {describe_sequence(seq)}")
         prompt = PromptTemplate(
             template=BATCH_ANALYSIS_PROMPT,
             input_variables=["reactive_table", "sequences_block"],
@@ -541,14 +538,12 @@ class ThoughtLibrarian:
                     sev = "restrict"
                 canons.append(
                     Canon(
-                        id=str(c.get("id", f"C{len(canons)+1:03d}")),
+                        id=str(c.get("id", f"C{len(canons) + 1:03d}")),
                         title=str(c.get("title", "Untitled")),
                         body=str(c.get("body", "")),
                         severity=sev,  # type: ignore[arg-type]
                         applies_to=list(c.get("applies_to") or []),
-                        hermetic_principle=str(
-                            c.get("hermetic_principle", "Cause and Effect")
-                        ),
+                        hermetic_principle=str(c.get("hermetic_principle", "Cause and Effect")),
                     )
                 )
             return preamble, canons
@@ -792,10 +787,7 @@ def save_library(lib: ThoughtLibrary, out_dir: Path) -> dict[str, Path]:
                 "",
                 c.body,
                 "",
-                (
-                    "**Applies to:** "
-                    + (", ".join(f"`{a}`" for a in c.applies_to[:12]) or "—")
-                ),
+                ("**Applies to:** " + (", ".join(f"`{a}`" for a in c.applies_to[:12]) or "—")),
                 "",
             ]
         )
